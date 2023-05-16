@@ -4,6 +4,8 @@ ERD Diagram:[https://whimsical.com/nyZEPfpbgkESM6NrAkGNx](https://whimsical.com/
 
 Password: morui
 
+![image](https://github.com/MornMon-Bangkit-Capstone/moru-backend/assets/82663653/94beb311-b5cc-4b21-96b2-bcd85fe03b4e)
+
 ## API
 ### Endpoint
 {url-endpoint}
