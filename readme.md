@@ -52,7 +52,7 @@ Password: morui
 * Method
   * ```GET```
 * Parameter
-
+  * ```Authorization: Bearer <token>```
 * Response
 ```
 {
@@ -62,14 +62,16 @@ Password: morui
         {
             "id": "book-FvU4u0Vp2S3PMsFg",
             "title": "Psychology of Money",
-            "description": "Lorem Ipsum",
-            "url": "https://my-bucket/documents/example.txt",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Moral, Psychology",
+            "description": "Lorem Ipsum",         
         },
         {
             "id": "exrcise-Fqe4u0Vp2SwaesFg",
             "title": "Push Up 200 kali",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
             "description": "Lorem Ipsum",
-            "url": "https://my-bucket/documents/example.txt",
         }
     ]
 }
@@ -80,7 +82,7 @@ Password: morui
 * Method
   * ```GET```
 * Parameter
-  * ```id``` as ```INT```
+  * ```Authorization: Bearer <token>```
 * Response
 ```
 {
@@ -90,15 +92,17 @@ Password: morui
         {
             "id": "book-FvU4u0Vp2S3PMsFg",
             "title": "Psychology of Money",
-            "description": "Lorem Ipsum",
-            "url": "https://my-bucket/documents/example.txt",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Moral, Psychology",
+            "description": "Lorem Ipsum",         
         },
         {
-            "id": "book-Fqe4u0Vp2SwaesFg",
+            "id": "book-FvU4u0Vp2S3PMsFg",
             "title": "48 Laws of Power",
-            "description": "Lorem Ipsum",
-            "url": "https://my-bucket/documents/example.txt",
-        }
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Moral, Psychology",
+            "description": "Lorem Ipsum",         
+        },
     ]
 }
 ```
@@ -108,7 +112,7 @@ Password: morui
 * Method
   * ```GET```
 * Parameter
-  * ```id``` as ```INT```
+  * ```Authorization: Bearer <token>```
 * Response
 ```
 {
@@ -116,17 +120,64 @@ Password: morui
     "message": "Exercises recommendation fetched successfully",
     "listRecommendations": [
         {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "Push up 200 kali",
+            "id": "exrcise-Fqe4u0Vp2SwaesFg",
+            "title": "Push Up 200 kali",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
             "description": "Lorem Ipsum",
-            "url": "https://my-bucket/documents/example.txt",
-        },
+        }
         {
-            "id": "book-Fqe4u0Vp2SwaesFg",
+            "id": "exrcise-Fqe4u0Vp2SwaesFg",
             "title": "Lari 10km",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
             "description": "Lorem Ipsum",
-            "url": "https://my-bucket/documents/example.txt",
         }
     ]
+}
+```
+### Get Book Detail
+* URL
+  * ```/recommendation/books/:id```
+* Method
+  * ```GET```
+* Parameter
+  * ```Authorization: Bearer <token>```
+* Response
+```
+{
+    "error": false,
+    "message": "Books recommendation fetched successfully",
+    "book": {
+            "id": "book-FvU4u0Vp2S3PMsFg",
+            "title": "Psychology of Money",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Moral, Psychology",
+            "pages": "542",
+            "rating": "8",
+            "description": "Lorem Ipsum",         
+        }
+}
+```
+### Get Exercise Detail
+* URL
+  * ```/recommendation/exercises/:id```
+* Method
+  * ```GET```
+* Parameter
+  * ```Authorization: Bearer <token>```
+* Response
+```
+{
+    "error": false,
+    "message": "Exercises recommendation fetched successfully",
+    "book": {
+            "id": "exercise-FvU4u0Vp2S3PMsFg",
+            "title": "Saitama Morning Routine",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
+            "duration": "36000",
+            "description": "Lorem Ipsum",         
+        }
 }
 ```
