@@ -207,34 +207,30 @@ Password: morui
 * Method
   *```Get```
 * Parameter
-  *```user_id as integer```
-  *```tanggal as date```
+  *```user_id``` as ```integer```
+  *```tanggal``` as ```date```
+  * ```Authorization: Bearer <token>```
 * Response (exercise)
 ```
 {
     "error": false,
-    "messages": "schedule found succesfully"
-    "listSchedule": {
-		    "user_id":"123"
-		    "date_schedule":"18-05-2023"
-		    "routine_type":"exercise"
-		    "activity":"Pull Up"
-		    "time": "date"
-	    }
-}
-```
-Response (book)
-```
-{
-    "error": false,
-    "messages": "schedule found succesfully"
-    "listSchedule": {
-		     "user_id":"123"
-		     "date_schedule":"18-05-2023"
-		     "routine_type":"book"
-		     "tittle":"Dunia Sophie"
-		     "url":"https://my-bucket/documents/example.txt"
-	    }
+    "message": "Schedule found successfully",
+    "listSchedule": [
+        {
+            "user_id": "123,
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "start_hour": "08.00",
+            "end_hour": "09.00",
+            "status": "Completed",
+        }
+        {
+            "user_id": "123",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "start_hour": "07.00",
+            "end_hour": "08.00",
+            "status": "Not Started",
+        }
+    ]
 }
 ```
 ### POST schedule
@@ -242,19 +238,26 @@ Response (book)
   *```/schedule```
 * Method
   *```POST```
+* Parameter
+  *```Authorization: Bearer <token>```
 * Request Body:
-  *```category``` as ```string```
-  *```activity``` as ```string```
+  *```type``` as ```string```
+  *```tittle``` as ```string```
   *```date``` as ```date```
+  *```hour``` as ```time```
+  *```description``` as ```string```
 * Response
 ```
 {
-    "error":false,
-    "message":"succes",
-    "scheduleResult":{
-        	      "category":"exercise"
-		      "activity":"Do Pull Up"
-		      "date":"13-05-2023"
-	    }
+    "error": false,
+    "message": "Schedule Created Succesfully",
+    "scheduleResult": {
+            "type": "exercise",
+            "title": "Do Pull Up 10x2",
+            "date": "13-05-2023",
+            "start_hour": "07.00",
+            "end_hour": "08.00",
+            "description": "Lorem Ipsum",         
+        }
 }
 ```
