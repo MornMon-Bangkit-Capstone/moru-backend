@@ -33,7 +33,7 @@ Password: morui
   * ```POST```
 * Request Body
   * ```email``` as ```string```
-` * ```password``` as ```string```
+  * ```password``` as ```string```
 * Response
 ```
 {
@@ -44,6 +44,26 @@ Password: morui
         "name": "Arif Faizin",
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXlqNXBjX0xBUkNfQWdLNjEiLCJpYXQiOjE2NDE3OTk5NDl9.flEMaQ7zsdYkxuyGbiXjEDXO8kuDTcI__3UjCwt6R_I"
     }
+}
+```
+### GET User
+* URl:
+  * ```/user```
+* Method:
+  * ```Get```
+* Parameter:
+  * ```user_id``` as ```integer```
+  * ```Authorization: Bearer <token>```
+* Response
+```
+{
+	   "error": false,
+	   "message":"succes"
+	   "profileResult":{
+		      "profPicture": "https://drive.google.com/uc?id=1SMHO7F8qw7rXiDX2Xf4mncbYEe8rU7IN"
+		      "name": "Zainudin Ahmad"
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXlqNXBjX0xBUkNfQWdLNjEiLCJpYXQiOjE2NDE3OTk5NDl9.flEMaQ7zsdYkxuyGbiXjEDXO8kuDTcI__3UjCwt6R_I"
+	   }
 }
 ```
 ### Get All Recommendation
@@ -179,5 +199,62 @@ Password: morui
             "duration": "36000",
             "description": "Lorem Ipsum",         
         }
+}
+```
+### GET Schedule
+* URL
+  *```/schedule```
+* Method
+  *```Get```
+* Parameter
+  *```user_id as integer```
+  *```tanggal as date```
+* Response (exercise)
+```
+{
+    "error": false,
+	   "messages": "schedule found succesfully"
+	   "listSchedule":{
+		      "user_id":"123"
+		      "date_schedule":"18-05-2023"
+		      "routine_type":"exercise"
+		      "activity":"Pull Up"
+		      "time": "date"
+	    }
+}
+```
+Response (book)
+```
+{
+    "error": false,
+	   "messages": "schedule found succesfully"
+	   "listSchedule":{
+		      "user_id":"123"
+		      "date_schedule":"18-05-2023"
+		      "routine_type":"book"
+		      "tittle":"Dunia Sophie"
+		      "url":"https://my-bucket/documents/example.txt"
+	    }
+}
+```
+### POST schedule
+* URL
+  *```/schedule```
+* Method
+  *```POST```
+* Request Body:
+  *```category``` as ```string```
+  *```activity``` as ```string```
+  *```date``` as ```date```
+* Response
+```
+{
+	   "error": false,
+    "message":"succes",
+    "scheduleResult":{
+        "category":"exercise"
+		      "activity":"Do Pull Up"
+		      "date":"13-05-2023"
+	    }
 }
 ```
