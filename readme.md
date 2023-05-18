@@ -47,8 +47,8 @@ Password: morui
 }
 ```
 ### GET User
-* URl:
-  * ```/user```
+* URL:
+  * ```/user/:id```
 * Method:
   * ```Get```
 * Parameter:
@@ -203,14 +203,14 @@ Password: morui
 ```
 ### GET Schedule
 * URL
-  *```/schedule```
+  * ```/schedule```
 * Method
-  *```Get```
+  * ```Get```
 * Parameter
-  *```user_id``` as ```integer```
-  *```tanggal``` as ```date```
+  * ```user_id``` as ```integer```
+  * ```tanggal``` as ```date```
   * ```Authorization: Bearer <token>```
-* Response (exercise)
+* Response
 ```
 {
     "error": false,
@@ -235,17 +235,17 @@ Password: morui
 ```
 ### POST schedule
 * URL
-  *```/schedule```
+  * ```/schedule```
 * Method
-  *```POST```
+  * ```POST```
 * Parameter
-  *```Authorization: Bearer <token>```
+  * ```Authorization: Bearer <token>```
 * Request Body:
-  *```type``` as ```string```
-  *```tittle``` as ```string```
-  *```date``` as ```date```
-  *```hour``` as ```time```
-  *```description``` as ```string```
+  * ```type``` as ```string```
+  * ```tittle``` as ```string```
+  * ```date``` as ```date```
+  * ```hour``` as ```time```
+  * ```description``` as ```string```
 * Response
 ```
 {
