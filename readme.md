@@ -12,7 +12,7 @@ Password: morui
 
 ### Register
 * URL
-  * ```/register```
+  * ```/auth/register```
 * Method
   * ```POST```
 * Request Body
@@ -28,7 +28,7 @@ Password: morui
 ```
 ### Login
 * URL
-  * ```/login```
+  * ```/auth/login```
 * Method
   * ```POST```
 * Request Body
