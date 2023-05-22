@@ -1,15 +1,17 @@
-require('dotenv').config()
-const PORT=3000
-const express = require('express')
-const jwt = require('jsonwebtoken')
-const authRoutes = require("./routes/auth.js")
-const router = express.Router()
+require('dotenv').config();
+const PORT=3000;
+const express = require('express');
+// eslint-disable-next-line no-unused-vars
+const jwt = require('jsonwebtoken');
+const authRoutes = require('./routes/auth.js');
+// eslint-disable-next-line new-cap, no-unused-vars
+const router = express.Router();
 const app = express();
-app.use(express.json())
+app.use(express.json());
 
 
-app.use('/auth',authRoutes)
-app.listen(PORT)
+app.use('/auth', authRoutes);
+app.listen(PORT);
 
 /*
 const posts = [
@@ -37,18 +39,18 @@ app.post('/login', (req, res) => {
 app.get('/posts',authenticateToken,  (req, res) => {
     res.json(posts.filter(post => post.username === req.user.name))
   })
-  
+
   function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (token == null) return res.sendStatus(401)
-  
+
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
       console.log(err)
       if (err) return res.sendStatus(403)
       req.user = user
       next()
     })
-  } 
+  }
 */
 
