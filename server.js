@@ -1,9 +1,17 @@
 require('dotenv').config()
-
+const PORT=3000
 const express = require('express')
-const app = express()
 const jwt = require('jsonwebtoken')
+const authRoutes = require("./routes/auth.js")
+const router = express.Router()
+const app = express();
 app.use(express.json())
+
+
+app.use('/auth',authRoutes)
+app.listen(PORT)
+
+/*
 const posts = [
   {
     username: 'Kyle',
@@ -42,4 +50,5 @@ app.get('/posts',authenticateToken,  (req, res) => {
       next()
     })
   } 
-app.listen(3000)
+*/
+

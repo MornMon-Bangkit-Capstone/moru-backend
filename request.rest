@@ -1,9 +1,11 @@
-GET http://localhost:3000/posts
+GET http://localhost:3000/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNjg0Mzk4MDQ2fQ.sbt7YPxPYQGJfeceyerEX8U2mUFBSHCagfj0tT9o75g
 ###
-POST http://localhost:3000/login 
+POST http://localhost:3000/auth/register 
 Content-Type: application/json
 
 {
-"username": "Jim"
+    "name": "name",
+    "email": "emai55l", 
+    "password": "hashedPassword" 
 }
