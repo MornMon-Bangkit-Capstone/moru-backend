@@ -3,7 +3,8 @@
 ERD Diagram:[https://whimsical.com/nyZEPfpbgkESM6NrAkGNx](https://whimsical.com/nyZEPfpbgkESM6NrAkGNx)
 
 Password: morui
-
+# Install
+For installation use ```npm init```
 # Lint
 Google Style, Ignore line break
 # .env
@@ -15,4 +16,5 @@ DATABASE_HOST= db_host
 DATABASE_USER= root
 DATABASE_PASSWORD= db_pass
 DATABASE= db_name
+TOKEN_EXPIRES_IN= 100
 ```
