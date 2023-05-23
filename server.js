@@ -1,8 +1,6 @@
 require('dotenv').config();
 const PORT=3000;
 const express = require('express');
-// eslint-disable-next-line no-unused-vars
-const jwt = require('jsonwebtoken');
 const authRoutes = require('./routes/auth.js');
 // eslint-disable-next-line new-cap, no-unused-vars
 const router = express.Router();
@@ -14,16 +12,7 @@ app.use('/auth', authRoutes);
 app.listen(PORT);
 
 /*
-const posts = [
-  {
-    username: 'Kyle',
-    title: 'Post 1'
-  },
-  {
-    username: 'Jim',
-    title: 'Post 2'
-  }
-]
+
 
 app.post('/login', (req, res) => {
   // Authenticate User
