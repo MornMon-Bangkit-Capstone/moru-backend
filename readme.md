@@ -3,7 +3,8 @@
 ERD Diagram:[https://whimsical.com/nyZEPfpbgkESM6NrAkGNx](https://whimsical.com/nyZEPfpbgkESM6NrAkGNx)
 
 Password: morui
-
+# Install
+For installation use ```npm init```
 # Lint
 Google Style, Ignore line break
 # .env
