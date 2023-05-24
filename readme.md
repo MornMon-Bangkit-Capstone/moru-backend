@@ -8,7 +8,7 @@ Password: morui
 
 ## API
 ### Endpoint
-{url-endpoint}
+moru-mirror-production.up.railway.app
 
 ### Register
 * URL
