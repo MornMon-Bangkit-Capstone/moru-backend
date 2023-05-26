@@ -58,6 +58,76 @@ moru-mirror-production.up.railway.app
 }
 ```
 
+### GET Profile
+
+- URL:
+  - `/profile/:id/profData
+- Method:
+  - `GET`
+- Parameter:
+  - `user_id` as `integer`
+  - `Authorization: Bearer <token>`
+- Response
+
+```
+{
+    "error": false,
+    "message": "succes"
+    "profData":{
+        "profPicture": "https://drive.google.com/uc?id=1SMHO7F8qw7rXiDX2Xf4mncbYEe8rU7IN"
+	"Name": "Zainudin Ahmad"
+	"Date of Birth": "12 June 1999"
+	"Goals": "Live like larry"
+	"Favorite Book Category": "Pschicology"
+	"Favorite Book": "Dunia Sophie"
+	"Favorite Author": "Jostein Gaarder"
+	"Favorite Exercise Author": "Chest"
+	"Favorite Exercise": "Push Up"
+	"Exercise Experience": "Hardcore"
+    }
+}
+```
+
+### PUT Profile Data
+
+- URL:
+  - `/profile/:id/profData`
+- Method
+  - `PUT`
+- Parameter:
+  - `user_id` as `integer`
+  - `Authorization: Bearer <token>`
+- Request Body:
+  - `Name` as `String
+  - `Date of Birth` as `Date`
+  - `Goals` as `String`
+  - `Favorite Book Category` as `String`
+  - `Favorite Book` as `String`
+  - `Favorite Author` as `String`
+  - `Favorite Exercise Category` as `String`
+  - `Favorite Exercise` as `String`
+  - `Favorite Experience` as `String`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Data Succes Changed"
+    "profData":{
+        "profPicture": "https://drive.google.com/uc?id=1SMHO7F8qw7rXiDX2Xf4mncbYEe8rU7IN"
+	"Name": "Riyandi Saputra"
+	"Date of Birth": "12 June 1998"
+	"Goals": "Kampus Merdeka tapi Gak Merdeke:("
+	"Favorite Book Category": "Pschicology"
+	"Favorite Book": "Retorika"
+	"Favorite Author": "Aristoteles"
+	"Favorite Exercise Category": "Chest"
+	"Favorite Exercise": "Pull Up"
+	"Exercise Experience": "Hardcore"
+    }
+}
+```
+
 ### GET User
 
 - URL:
