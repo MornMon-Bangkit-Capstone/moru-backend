@@ -61,7 +61,7 @@ moru-mirror-production.up.railway.app
 ### GET Profile
 
 - URL:
-  - `/profile/:id/profData
+  - `/profile/:id`
 - Method:
   - `GET`
 - Parameter:
@@ -91,7 +91,7 @@ moru-mirror-production.up.railway.app
 ### PUT Profile Data
 
 - URL:
-  - `/profile/:id/profData`
+  - `/profile/:id
 - Method
   - `PUT`
 - Parameter:
