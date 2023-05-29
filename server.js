@@ -1,45 +1,21 @@
 require('dotenv').config();
-const PORT=3000;
+require('rootpath')();
+
 const express = require('express');
-const authRoutes = require('./routes/auth.js');
-// eslint-disable-next-line new-cap, no-unused-vars
-const router = express.Router();
+const routes = require('routes/index');
+
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 3000;
+
 const app = express();
-app.use(express.json());
+
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(bodyParser.urlencoded({extended: false}));
+// Parse JSON bodies (as sent by API clients)
+app.use(bodyParser.json());
+
+app.use('/', routes);
 
 
-app.use('/auth', authRoutes);
-app.listen(PORT);
-
-/*
-
-
-app.post('/login', (req, res) => {
-  // Authenticate User
-
-  const username = req.body.username
-  const user = { name: username }
-
-  const accessToken=jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-  res.json({accessToken: accessToken})
-
-})
-
-app.get('/posts',authenticateToken,  (req, res) => {
-    res.json(posts.filter(post => post.username === req.user.name))
-  })
-
-  function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-      console.log(err)
-      if (err) return res.sendStatus(403)
-      req.user = user
-      next()
-    })
-  }
-*/
-
+// Start the server
+app.listen(port, '0.0.0.0');
