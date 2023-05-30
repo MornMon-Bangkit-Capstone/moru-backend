@@ -23,9 +23,9 @@ moru-mirror-production.up.railway.app
 - Method
   - `POST`
 - Request Body
-  - `name` as `string`
   - `email` as `string`, must be unique
   - `password` as `string`, must be at least 8 characters
+  - `password-confirm` as `string`, must be at least 8 characters
 - Response
 
 ```
@@ -127,27 +127,65 @@ moru-mirror-production.up.railway.app
     }
 }
 ```
+### Get All Exercises
 
-### GET User
-
-- URL:
-  - `/user/:id`
-- Method:
-  - `Get`
-- Parameter:
-  - `user_id` as `integer`
-  - `Authorization: Bearer <token>`
+- URL
+  - `/routine/exercises`
+- Method
+  - `GET`
 - Response
 
 ```
 {
-	   "error": false,
-	   "message":"succes"
-	   "profileResult":{
-		      "profPicture": "https://drive.google.com/uc?id=1SMHO7F8qw7rXiDX2Xf4mncbYEe8rU7IN"
-		      "name": "Zainudin Ahmad"
-                      "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLXlqNXBjX0xBUkNfQWdLNjEiLCJpYXQiOjE2NDE3OTk5NDl9.flEMaQ7zsdYkxuyGbiXjEDXO8kuDTcI__3UjCwt6R_I"
-	   }
+    "error": false,
+    "message": "Exercises recommendation fetched successfully",
+    "listRecommendations": [
+        {
+            "id": "exrcise-Fqe4u0Vp2SwaesFg",
+            "title": "Push Up 200 kali",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
+            "description": "Lorem Ipsum",
+        }
+        {
+            "id": "exrcise-Fqe4u0Vp2SwaesFg",
+            "title": "Lari 10km",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
+            "description": "Lorem Ipsum",
+        }
+    ]
+}
+```
+
+### Get All Books
+
+- URL
+  - `/routine/books`
+- Method
+  - `GET`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Routines fetched successfully",
+    "listRoutines": [
+        {
+            "id": "book-FvU4u0Vp2S3PMsFg",
+            "title": "Psychology of Money",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Moral, Psychology",
+            "description": "Lorem Ipsum",
+        },
+        {
+            "id": "exrcise-Fqe4u0Vp2SwaesFg",
+            "title": "Push Up 200 kali",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
+            "description": "Lorem Ipsum",
+        }
+    ]
 }
 ```
 
