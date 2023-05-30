@@ -25,7 +25,7 @@ moru-mirror-production.up.railway.app
 - Request Body
   - `email` as `string`, must be unique
   - `password` as `string`, must be at least 8 characters
-  - `password_confirm` as `string`, must be at least 8 characters
+  - `passwordConfirm` as `string`, must be at least 8 characters
 - Response
 
 ```
