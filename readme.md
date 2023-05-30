@@ -291,7 +291,7 @@ moru-tes-production.up.railway.app
 ### Get Book Detail
 
 - URL
-  - `/recommendation/books/:id`
+  - `/routine/books/:id`
 - Method
   - `GET`
 - Parameter
@@ -317,7 +317,7 @@ moru-tes-production.up.railway.app
 ### Get Exercise Detail
 
 - URL
-  - `/recommendation/exercises/:id`
+  - `/routine/exercises/:id`
 - Method
   - `GET`
 - Parameter
