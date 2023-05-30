@@ -14,7 +14,7 @@ Password: morui
 
 ### Endpoint
 
-moru-mirror-production.up.railway.app
+moru-tes-production.up.railway.app
 
 ### Register
 
