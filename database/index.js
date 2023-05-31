@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql8');
 // Create MySQL connection
 const pool = mysql.createPool({
   host: process.env.DATABASE_HOST,

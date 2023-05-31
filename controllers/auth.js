@@ -1,13 +1,20 @@
 const bcrypt = require('bcryptjs');
+const {v4: uuidv4} = require('uuid');
 const pool = require('database/index');
 const jwt = require('jsonwebtoken');
 exports.register = async (req, res) => {
-  const {username, email, password} = req.body;
+  const {email, password, passwordConfirm} = req.body;
   // Check if username and password are provided
-  if (!username|| !email || !password) {
+  if (!email || !password || !passwordConfirm) {
     return res.status(401).json({
       error: true,
-      message: 'Username, email, and password required',
+      message: 'Please fill the required fields',
+    });
+  }
+  if (!password ===passwordConfirm) {
+    return res.status(401).json({
+      error: true,
+      message: 'The password and password confirmation do not match',
     });
   }
   const salt = bcrypt.genSaltSync(10);
@@ -39,10 +46,11 @@ exports.register = async (req, res) => {
       }
 
       // Insert new user record
+      const uid= uuidv4();
       // eslint-disable-next-line max-len
-      const insertUserQuery = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
+      const insertUserQuery = 'INSERT INTO users (id, email, password) VALUES (?, ?, ?)';
       connection.query(insertUserQuery,
-          [username, email, hashedPassword], (err, results) => {
+          [uid, email, hashedPassword], (err, results) => {
             connection.release();
             if (err) {
               console.error('Error inserting user:', err);
