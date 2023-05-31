@@ -57,6 +57,30 @@ moru-tes-production.up.railway.app
     }
 }
 ```
+### Fill Your Personal Data
+
+- URL
+  - `/auth/fill/data`
+- Method
+  - `POST`
+- Request Body
+  - `name` as `string`
+  - `birthdate` as `string`
+  - `goal` as `string`
+- Response
+
+```
+{
+    "error": false,
+    "message": "success",
+    "data": {
+        "userId": "user-yj5pc_LARC_AgK61",
+        "name": "Arif Faizin",
+        "birthdate": "2023-05-30T12:34:56Z",
+	"goal": "to perform an Infinite Tsukuyomi, a genjutsu that places shinobis in a dreamlike state where their deepest desires are realized."
+    }
+}
+```
 
 ### GET Profile
 
