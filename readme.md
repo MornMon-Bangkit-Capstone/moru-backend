@@ -111,46 +111,6 @@ moru-tes-production.up.railway.app
 }
 ```
 
-### PUT Profile Data
-
-- URL:
-  - `/profile/:id
-- Method
-  - `PUT`
-- Parameter:
-  - `user_id` as `integer`
-  - `Authorization: Bearer <token>`
-- Request Body:
-  - `Name` as `String
-  - `Date of Birth` as `Date`
-  - `Goals` as `String`
-  - `Favorite Book Category` as `String`
-  - `Favorite Book` as `String`
-  - `Favorite Author` as `String`
-  - `Favorite Exercise Category` as `String`
-  - `Favorite Exercise` as `String`
-  - `Favorite Experience` as `String`
-- Response
-
-```
-{
-    "error": false,
-    "message": "Data Succes Changed"
-    "profData":{
-        "profPicture": "https://drive.google.com/uc?id=1SMHO7F8qw7rXiDX2Xf4mncbYEe8rU7IN"
-	"Name": "Riyandi Saputra"
-	"Date of Birth": "12 June 1998"
-	"Goals": "Kampus Merdeka tapi Gak Merdeke:("
-	"Favorite Book Category": "Pschicology"
-	"Favorite Book": "Retorika"
-	"Favorite Author": "Aristoteles"
-	"Favorite Exercise Category": "Chest"
-	"Favorite Exercise": "Pull Up"
-	"Exercise Experience": "Hardcore"
-    }
-}
-```
-
 ### Get All Exercises
 
 - URL
@@ -371,7 +331,6 @@ moru-tes-production.up.railway.app
   - `Get`
 - Parameter
   - `user_id` as `integer`
-  - `tanggal` as `date`
   - `Authorization: Bearer <token>`
 - Response
 
