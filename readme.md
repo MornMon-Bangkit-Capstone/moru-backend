@@ -64,20 +64,15 @@ moru-tes-production.up.railway.app
   - `POST`
 - Request Body
   - `name` as `string`
-  - `birthdate` as `string`
+  - `birthdate` as `Date`(yyyy-mm-dd)
   - `goal` as `string`
+  - `profilePicture` as `string` (link to image)
 - Response
 
 ```
 {
     "error": false,
     "message": "success",
-    "data": {
-        "userId": "user-yj5pc_LARC_AgK61",
-        "name": "Arif Faizin",
-        "birthdate": "2008-11-11",
-	"goal": "to perform an Infinite Tsukuyomi, a genjutsu that places shinobis in a dreamlike state where their deepest desires are realized."
-    }
 }
 ```
 
@@ -122,8 +117,8 @@ moru-tes-production.up.railway.app
 ```
 {
     "error": false,
-    "message": "Exercises recommendation fetched successfully",
-    "listRecommendations": [
+    "message": "Exercises fetched successfully",
+    "list": [
         {
             "id": "exrcise-Fqe4u0Vp2SwaesFg",
             "title": "Push Up 200 kali",
@@ -153,8 +148,8 @@ moru-tes-production.up.railway.app
 ```
 {
     "error": false,
-    "message": "Routines fetched successfully",
-    "listRoutines": [
+    "message": "Book fetched successfully",
+    "list": [
         {
             "id": "book-FvU4u0Vp2S3PMsFg",
             "title": "Psychology of Money",
@@ -330,28 +325,23 @@ moru-tes-production.up.railway.app
 - Method
   - `Get`
 - Parameter
-  - `user_id` as `integer`
   - `Authorization: Bearer <token>`
 - Response
 
 ```
 {
     "error": false,
-    "message": "Schedule found successfully",
-    "listSchedule": [
+    "message": "Schedule fetched successfully",
+    "list": [
         {
-            "user_id": "123,
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "start_hour": "08.00",
-            "end_hour": "09.00",
-            "status": "Completed",
-        }
-        {
-            "user_id": "123",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "start_hour": "07.00",
-            "end_hour": "08.00",
-            "status": "Not Started",
+            "id": "schedule-0e90ded9-1679-403c-ae93-fb3c8f00ca4e",
+            "name": "run",
+            "type": "exercise",
+            "date": "2022-07-08",
+            "start_time": "09:00",
+            "end_time": "10:00",
+            "description": "20km run like saitama",
+            "uid": "b6f9d2a4-8e19-4901-8549-cdb9884ab0d4"
         }
     ]
 }
@@ -367,9 +357,10 @@ moru-tes-production.up.railway.app
   - `Authorization: Bearer <token>`
 - Request Body:
   - `type` as `string`
-  - `tittle` as `string`
-  - `date` as `date`
-  - `hour` as `time`
+  - `title` as `string`
+  - `date` as `string`
+  - `startTime` as `string`
+  - `endTime` as `string`
   - `description` as `string`
 - Response
 
