@@ -342,6 +342,44 @@ moru-tes-production.up.railway.app
             "end_time": "10:00",
             "description": "20km run like saitama",
             "uid": "b6f9d2a4-8e19-4901-8549-cdb9884ab0d4"
+        },
+	{
+            "id": "schedule-0eerd9-1679-403tae93-fb3c8f00ca4e",
+            "name": "Book w",
+            "type": "book",
+            "date": "2022-07-08",
+            "start_time": "09:00",
+            "end_time": "10:00",
+            "description": "Book about how to control your chakra, some basic jutsu",
+            "uid": "b6f9d2a4-8e19-4901-8549-cdb9884ab0d4"
+        }
+    ]
+}
+```
+### GET Schedule Detail
+
+- URL
+  - `/schedule/:id`
+- Method
+  - `Get`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Schedule fetched successfully",
+    "schedule": [
+        {
+            "id": "schedule-0e90ded9-1679-403c-ae93-fb3c8f00ca4e",
+            "name": "run",
+            "type": "exercise",
+            "date": "2022-07-08",
+            "start_time": "09:00",
+            "end_time": "10:00",
+            "description": "20km run like saitama",
+            "uid": "b6f9d2a4-8e19-4901-8549-cdb9884ab0d4"
         }
     ]
 }
