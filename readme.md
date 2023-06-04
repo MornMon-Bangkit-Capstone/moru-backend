@@ -416,6 +416,46 @@ moru-tes-production.up.railway.app
         }
 }
 ```
+### PUT schedule
+
+- URL
+  - `/schedule/:id`
+- Method
+  - `PUT`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Request Body:
+{Optional, fill only needed}
+  - `type` as `string`
+  - `title` as `string`
+  - `date` as `string`
+  - `startTime` as `string`
+  - `endTime` as `string`
+  - `description` as `string`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Schedule updated successfully'
+}
+```
+### DELETE schedule
+
+- URL
+  - `/schedule/:id`
+- Method
+  - `DELETE`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Schedule deleted successfully'
+}
+```
 
 # Install
 
