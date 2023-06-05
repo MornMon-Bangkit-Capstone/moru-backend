@@ -5,8 +5,8 @@ const express = require('express');
 const routes = require('routes/index');
 
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 3000;
-
+const port = process.env.PORT || 8080;
+const host= process.env. HOST || '0.0.0.0';
 const app = express();
 
 // Parse URL-encoded bodies (as sent by HTML forms)
@@ -18,4 +18,4 @@ app.use('/', routes);
 
 
 // Start the server
-app.listen(port, '0.0.0.0');
+app.listen(port, host);
