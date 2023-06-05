@@ -14,7 +14,17 @@ CREATE TABLE exercises (
   description TEXT NOT NULL,
   PRIMARY KEY (id)
 );
-
+CREATE TABLE schedule (
+  id CHAR(50) NOT NULL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  type VARCHAR(20) NOT NULL,
+  date VARCHAR(20) NOT NULL,
+  start_time VARCHAR(20) NOT NULL,
+  end_time VARCHAR(20) NOT NULL,
+  description TEXT NOT NULL,
+  uid CHAR(50) NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(id)
+);
 
 INSERT INTO `exercises` (`id`, `title`, `img_url`, `type`, `description`) 
 VALUES (CONCAT('exercise-', UUID()), 

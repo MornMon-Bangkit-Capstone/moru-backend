@@ -2,7 +2,7 @@ const pool = require('database/index');
 
 exports.fillData = async (req, res) => {
   const {name, birthDate, goal, profilePicture} = req.body;
-  const {id}=req.user;
+  const {id} = req.user;
 
   // Check if name, birthdate, and profile picture are provided
   if (!name || !birthDate || !profilePicture) {
@@ -37,7 +37,6 @@ exports.fillData = async (req, res) => {
           return res.status(201).json({
             error: false,
             message: 'success',
-            data: results,
           });
         });
   });
