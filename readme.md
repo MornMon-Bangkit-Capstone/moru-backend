@@ -12,7 +12,7 @@ Password: morui
 
 ### Endpoint
 
-moru-tes-production.up.railway.app
+```https://moru-api-backend-inq7f5uz7q-et.a.run.app/```
 
 ### Register
 
