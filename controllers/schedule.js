@@ -18,7 +18,7 @@ exports.getAllSchedule = async (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           error: true,
           message: 'No schedule found',
         });
@@ -51,7 +51,7 @@ exports.getScheduleDetail = async (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           error: true,
           message: 'Schedule not found',
         });
@@ -118,7 +118,7 @@ exports.editScheduleDetail = async (req, res) => {
       }
 
       if (results.affectedRows === 0) {
-        return res.status(409).json({
+        return res.status(404).json({
           error: true,
           message: 'Schedule not found',
         });

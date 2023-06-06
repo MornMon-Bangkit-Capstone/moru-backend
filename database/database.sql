@@ -7,13 +7,32 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 );
 CREATE TABLE exercises (
-  id CHAR(50) NOT NULL,
+  id CHAR(50) NOT NULL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  img_url VARCHAR(255) NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL
+);
+CREATE TABLE privateExercises (
+  id CHAR(50) NOT NULL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   img_url VARCHAR(255) NOT NULL,
   type VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
-  PRIMARY KEY (id)
+  uid CHAR(50) NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(id)
 );
+CREATE TABLE privateBooks (
+  id CHAR(50) NOT NULL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  img_url VARCHAR(255) NOT NULL,
+  pdf_url VARCHAR(255) NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  uid CHAR(50) NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(id)
+);
+
 CREATE TABLE schedule (
   id CHAR(50) NOT NULL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
