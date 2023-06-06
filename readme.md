@@ -179,12 +179,14 @@ Get all exercises from database. If user has personal items, those will appear f
   - `type` as `string`
   - `description` as `string`
 sample request form:
+```
 {
     "title":"Book of Death",
     "imgUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
     "type": "hardcore",
     "description": "500 push up, 500 sit up, 5 hour plank, 15km run"
 }
+```
 - Response
 
 ```
@@ -268,6 +270,7 @@ Get all books from database. If user has personal items, those will appear first
   - `type` as `string`
   - `description` as `string`
 sample request form:
+```
 {
     "title":"Book of Death",
     "imgUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
@@ -275,6 +278,7 @@ sample request form:
     "type": "hardcore",
     "description": "500 push up, 500 sit up, 5 hour plank, 15km run"
 }
+```
 - Response
 
 ```
