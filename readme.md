@@ -107,11 +107,14 @@ Password: morui
 ```
 
 ### Get All Exercises
+Get all exercises from database. If user has personal items, those will appear first
 
 - URL
   - `/routine/exercises`
 - Method
   - `GET`
+- Parameter
+  - `Authorization: Bearer <token>`
 - Response
 
 ```
@@ -137,12 +140,69 @@ Password: morui
 }
 ```
 
+### Get Exercise Detail
+
+- URL
+  - `/routine/exercises/:id`
+- Method
+  - `GET`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Exercises recommendation fetched successfully",
+    "book": {
+            "id": "exercise-FvU4u0Vp2S3PMsFg",
+            "title": "Saitama Morning Routine",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Hardcore",
+            "duration": "36000",
+            "description": "Lorem Ipsum",
+        }
+}
+```
+
+### POST Exercises
+
+- URL
+  - `/routine/exercises`
+- Method
+  - `POST`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Request Body:
+  - `title` as `string`
+  - `imgUrl` as `string`
+  - `type` as `string`
+  - `description` as `string`
+sample request form:
+{
+    "title":"Book of Death",
+    "imgUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
+    "type": "hardcore",
+    "description": "500 push up, 500 sit up, 5 hour plank, 15km run"
+}
+- Response
+
+```
+{
+    "error": false,
+    "message": "Book added Succesfully",
+}
+```
+
 ### Get All Books
+Get all books from database. If user has personal items, those will appear first
 
 - URL
   - `/routine/books`
 - Method
   - `GET`
+- Parameter
+  - `Authorization: Bearer <token>`
 - Response
 
 ```
@@ -165,6 +225,62 @@ Password: morui
             "description": "Lorem Ipsum",
         }
     ]
+}
+```
+### Get Book Detail
+
+- URL
+  - `/routine/books/:id`
+- Method
+  - `GET`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Response
+
+```
+{
+    "error": false,
+    "message": "Books recommendation fetched successfully",
+    "book": {
+            "id": "book-FvU4u0Vp2S3PMsFg",
+            "title": "Psychology of Money",
+            "img-url": "https://my-bucket/documents/example.jpg",
+            "type": "Moral, Psychology",
+            "pages": "542",
+            "rating": "8",
+            "description": "Lorem Ipsum",
+        }
+}
+```
+
+### POST Books
+
+- URL
+  - `/routine/books`
+- Method
+  - `POST`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Request Body:
+  - `title` as `string`
+  - `imgUrl` as `string`
+  - `pdfUrl` as `string`
+  - `type` as `string`
+  - `description` as `string`
+sample request form:
+{
+    "title":"Book of Death",
+    "imgUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
+    "pdfUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
+    "type": "hardcore",
+    "description": "500 push up, 500 sit up, 5 hour plank, 15km run"
+}
+- Response
+
+```
+{
+    "error": false,
+    "message": "Book added Succesfully",
 }
 ```
 
@@ -264,57 +380,6 @@ Password: morui
             "description": "Lorem Ipsum",
         }
     ]
-}
-```
-
-### Get Book Detail
-
-- URL
-  - `/routine/books/:id`
-- Method
-  - `GET`
-- Parameter
-  - `Authorization: Bearer <token>`
-- Response
-
-```
-{
-    "error": false,
-    "message": "Books recommendation fetched successfully",
-    "book": {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "Psychology of Money",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Moral, Psychology",
-            "pages": "542",
-            "rating": "8",
-            "description": "Lorem Ipsum",
-        }
-}
-```
-
-### Get Exercise Detail
-
-- URL
-  - `/routine/exercises/:id`
-- Method
-  - `GET`
-- Parameter
-  - `Authorization: Bearer <token>`
-- Response
-
-```
-{
-    "error": false,
-    "message": "Exercises recommendation fetched successfully",
-    "book": {
-            "id": "exercise-FvU4u0Vp2S3PMsFg",
-            "title": "Saitama Morning Routine",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "duration": "36000",
-            "description": "Lorem Ipsum",
-        }
 }
 ```
 
