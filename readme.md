@@ -178,6 +178,8 @@ Get all exercises from database. If user has personal items, those will appear f
   - `imgUrl` as `string`
   - `type` as `string`
   - `description` as `string`
+
+
 sample request form:
 ```
 {
@@ -269,6 +271,8 @@ Get all books from database. If user has personal items, those will appear first
   - `pdfUrl` as `string`
   - `type` as `string`
   - `description` as `string`
+
+
 sample request form:
 ```
 {
