@@ -473,20 +473,26 @@ sample request form:
   - `startTime` as `string`
   - `endTime` as `string`
   - `description` as `string`
+
+
+sample request form:
+```
+{
+    "type": "exercise",
+    "name": "Do Pull Up 10x2",
+    "date": "13-05-2023",
+    "startTime": "07.00",
+    "endTime": "08.00",
+    "description": "Lorem Ipsum"
+}
+```
+
 - Response
 
 ```
 {
     "error": false,
     "message": "Schedule Created Succesfully",
-    "scheduleResult": {
-            "type": "exercise",
-            "title": "Do Pull Up 10x2",
-            "date": "13-05-2023",
-            "start_hour": "07.00",
-            "end_hour": "08.00",
-            "description": "Lorem Ipsum",
-        }
 }
 ```
 ### PUT schedule
