@@ -42,3 +42,37 @@ exports.fillData = async (req, res) => {
   });
 };
 
+exports.fillBookPreferences= async (req, res) => {
+  const {favorite, bookName, author} = req.body;
+  const {id} = req.user;
+  if (!favorite || !bookName || !author) {
+    return res.status(401).json({
+      error: true,
+      message: 'Please fill the required fields',
+    });
+  }
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error connecting to database:', err);
+      return res.status(500).json({message: 'Internal server error.'});
+    }
+
+    // PUT data to database
+    // eslint-disable-next-line max-len
+    const updateBookPreferencesQuery = 'UPDATE users SET favorite = ?, bookName= ?, author= ? WHERE id = ?';
+    connection.query(updateBookPreferencesQuery,
+        [
+          favorite, bookName, author, id,
+        ], (err, results) => {
+          if (err) {
+            connection.release();
+            console.error('Error querying database:', err);
+            return res.status(500).json({message: 'Internal server error.'});
+          }
+          return res.status(201).json({
+            error: false,
+            message: 'success',
+          });
+        });
+  });
+};

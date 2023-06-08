@@ -8,6 +8,13 @@ const {v4: uuidv4} = require('uuid');
 
 // const jwt = require('jsonwebtoken');
 exports.exercise = async (req, res) => {
+  // Get the page number from the request query parameters
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 20;
+  // Number of items per page
+  const pageSize = limit;
+  // Calculate the offset based on the page number
+  const offset = (page - 1) * pageSize;
   const uid = req.user.id;
 
 
@@ -16,10 +23,11 @@ exports.exercise = async (req, res) => {
       console.error('Error connecting to database:', err);
       return res.status(500).json({message: 'Internal server error.'});
     }
-    const checkExercisesQuery='SELECT * FROM exercises';
+    const checkExercisesQuery='SELECT * FROM exercises LIMIT ?, ?';
     // eslint-disable-next-line max-len
     const checkPrivateExercisesQuery='SELECT * FROM privateExercises WHERE uid= ?';
-    connection.query(checkExercisesQuery, (err, resultPublic) => {
+    // eslint-disable-next-line max-len
+    connection.query(checkExercisesQuery, [offset, pageSize], (err, resultPublic) => {
       if (err) {
         connection.release();
         console.error('Error querying database:', err);
@@ -84,21 +92,26 @@ exports.exerciseDetail = async (req, res) => {
 // POST new exercise. For premium only
 exports.exercisePost = async (req, res) => {
   const uid = req.user.id;
-  const {title, imgUrl, type, description} = req.body;
-  const id = 'exercise-' + uuidv4();
+  // eslint-disable-next-line max-len
+  const {title, description, visual, duration, location, numberOfPeople, equipment, muscle, category} = req.body;
+
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error connecting to database:', err);
       return res.status(500).json({message: 'Internal server error.'});
     }
     // eslint-disable-next-line max-len
-    const insertBookQuery = 'INSERT INTO privateExercises (id, title, img_url,  type, description, uid) VALUES (?, ?, ?, ?, ?, ?)';
+    const insertBookQuery = 'INSERT INTO privateExercises (Sports, Description, Visual, Duration_Mi, Location, Number_of_people, Equipment, Muscle, Category) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
     connection.query(insertBookQuery, [
-      id,
       title,
-      imgUrl,
-      type,
       description,
+      visual,
+      duration,
+      location,
+      numberOfPeople,
+      equipment,
+      muscle,
+      category,
       uid,
     ], (err, results) => {
       if (err) {
@@ -116,24 +129,28 @@ exports.exercisePost = async (req, res) => {
 
 // GET all book from google book API
 exports.book = async (req, res) => {
+  // Get the page number from the request query parameters
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 20;
+  // Number of items per page
+  const pageSize = limit;
+  // Calculate the offset based on the page number
+  const offset = (page - 1) * pageSize;
   const uid = req.user.id;
-  const params = {
-    q: 'subject:fiction', // Example search query (you can modify it as needed)
-    maxResults: 40, // Retrieve top 50 books
-    orderBy: 'relevance', // Order by relevance score
-  };
-  // Get book from private databae and return in with promise
-  const checkBooksQuery='SELECT * FROM privateBooks WHERE uid= ?';
 
-  const fetchPrivateBook = new Promise((resolve, reject) => {
+  // Get book from private databae and return in with promise
+  const checkPrivateBooksQuery='SELECT * FROM privateBooks WHERE uid= ?';
+  // Get all book from cloud sql
+  const checkBooksQuery='SELECT * FROM books LIMIT ?, ?';
+
+  const getPrivateBook = new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
         console.error('Error connecting to database:', err);
         return res.status(500).json({message: 'Internal server error.'});
       }
-      connection.query(checkBooksQuery, [uid], (err, results) => {
+      connection.query(checkPrivateBooksQuery, [uid], (err, results) => {
         if (err) {
-          console.error('Error executing query for Table 1:', err);
           reject(err);
           return;
         }
@@ -141,34 +158,24 @@ exports.book = async (req, res) => {
       });
     });
   });
-  // Get book from Google Book API
-  // eslint-disable-next-line max-len
-  const apiUrl = `${baseUrl}?${querystring.stringify(params)}&key=${process.env.API_KEY}`;
-
-  // Make a GET request to the Google Books API
-  const fetchGoogleAPIBooks= new Promise((resolve, reject)=>{
-    axios
-        .get(apiUrl)
-        .then((response) => {
-          const books = response.data.items;
-          const formattedData = books.map((book) => {
-            const {id, volumeInfo} = book;
-            const {title, imageLinks, categories, description} = volumeInfo;
-            return {
-              id,
-              title,
-              'img_url': imageLinks?.thumbnail || '',
-              'type': categories?.join(', ') || '',
-              description,
-            };
-          });
-          resolve(formattedData);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+  const getBooks = new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error connecting to database:', err);
+        return res.status(500).json({message: 'Internal server error.'});
+      }
+      connection.query(checkBooksQuery, [offset, pageSize], (err, results) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      });
+    });
   });
-  Promise.all([fetchPrivateBook, fetchGoogleAPIBooks])
+
+
+  Promise.all([getPrivateBook, getBooks])
       .then(([privateBooks, publicBooks]) => {
       // Combine private and public books
         const combinedData = [...privateBooks, ...publicBooks];
@@ -261,4 +268,35 @@ exports.bookPost = async (req, res) => {
   });
 };
 
-
+// Params to search
+const params = {
+  q: 'subject:fiction', // Example search query (you can modify it as needed)
+  maxResults: 40, // Retrieve top 50 books
+  orderBy: 'relevance', // Order by relevance score
+};
+// Get book from Google Book API
+// eslint-disable-next-line max-len
+const apiUrl = `${baseUrl}?${querystring.stringify(params)}&key=${process.env.API_KEY}`;
+// Make a GET request to the Google Books API
+const fetchGoogleAPIBooks= new Promise((resolve, reject)=>{
+  axios
+      .get(apiUrl)
+      .then((response) => {
+        const books = response.data.items;
+        const formattedData = books.map((book) => {
+          const {id, volumeInfo} = book;
+          const {title, imageLinks, categories, description} = volumeInfo;
+          return {
+            id,
+            title,
+            'img_url': imageLinks?.thumbnail || '',
+            'type': categories?.join(', ') || '',
+            description,
+          };
+        });
+        resolve(formattedData);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+});

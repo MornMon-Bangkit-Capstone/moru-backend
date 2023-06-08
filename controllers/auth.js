@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const {v4: uuidv4} = require('uuid');
+// const {v4: uuidv4} = require('uuid');
 const pool = require('database/index');
 const jwt = require('jsonwebtoken');
 exports.register = async (req, res) => {
@@ -46,11 +46,11 @@ exports.register = async (req, res) => {
       }
 
       // Insert new user record
-      const uid = uuidv4();
+      // const uid = uuidv4();
       // eslint-disable-next-line max-len
-      const insertUserQuery = 'INSERT INTO users (id, email, password) VALUES (?, ?, ?)';
+      const insertUserQuery = 'INSERT INTO users ( email, password) VALUES ( ?, ?)';
       connection.query(insertUserQuery,
-          [uid, email, hashedPassword], (err, results) => {
+          [email, hashedPassword], (err, results) => {
             connection.release();
             if (err) {
               console.error('Error inserting user:', err);

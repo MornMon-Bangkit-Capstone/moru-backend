@@ -136,9 +136,18 @@ exports.postSchedule = async (req, res) => {
 
   // Check if name, birthdate, and profile picture are provided
   if (!type || !name || !date || !startTime || !endTime || !description) {
+    const emptyFields = [];
+    if (!type) emptyFields.push('type');
+    if (!name) emptyFields.push('name');
+    if (!date) emptyFields.push('date');
+    if (!startTime) emptyFields.push('startTime');
+    if (!endTime) emptyFields.push('endTime');
+    if (!description) emptyFields.push('description');
+    const errorMessage =
+    'Please fill the following required fields: ' + emptyFields.join(', ');
     return res.status(401).json({
       error: true,
-      message: 'Please fill the required fields',
+      message: errorMessage,
     });
   }
   // Get a connection from the pool
@@ -170,8 +179,7 @@ exports.postSchedule = async (req, res) => {
           }
           return res.status(201).json({
             error: false,
-            message: 'success',
-            data: results,
+            message: 'Schedule Created Succesfully',
           });
         });
   });
