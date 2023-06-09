@@ -24,19 +24,25 @@ CREATE TABLE privateExercises (
   `Equipment` varchar(3) NOT NULL,
   `Muscle` text NOT NULL,
   `Category` varchar(10) NOT NULL,
-  uid CHAR(50) NOT NULL,
+  uid INT NOT NULL,
   FOREIGN KEY (uid) REFERENCES users(id)
 );
 CREATE TABLE privateBooks (
-  id CHAR(50) NOT NULL PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  img_url VARCHAR(255) NOT NULL,
-  pdf_url VARCHAR(255) NOT NULL,
-  type VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  uid CHAR(50) NOT NULL,
-  FOREIGN KEY (uid) REFERENCES users(id)
+  ISBN INT PRIMARY KEY NOT NULL,
+  BookTitle VARCHAR(200) NOT NULL,
+  BookAuthor VARCHAR(200) NOT NULL,
+  YearOfPublication INT NOT NULL,
+  Publisher VARCHAR(200) NOT NULL,
+  ImageURLL VARCHAR(100) NOT NULL,
+  Author VARCHAR(100) NULL,
+  Summary TEXT NOT NULL,
+  AvgRating FLOAT NULL,
+  CountRating INT NULL,
+  Genres VARCHAR(230) NOT NULL,  
+  uid INT NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(id) 
 );
+
 
 CREATE TABLE schedule (
   id CHAR(50) NOT NULL PRIMARY KEY,
@@ -65,3 +71,13 @@ Description,
     Equipment,
     Muscle,
     Category
+
+
+(
+  SELECT id, Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle,Category FROM privateExercises WHERE uid = 1
+)
+UNION
+(
+  SELECT * FROM exercises 
+)
+LIMIT 0,20;
