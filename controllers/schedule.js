@@ -158,7 +158,7 @@ exports.postSchedule = async (req, res) => {
 
     // POST data to database
     // eslint-disable-next-line max-len
-    const updateDataQuery = 'INSERT INTO schedule (id, type, name, date, start_time, end_time, description, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
+    const updateDataQuery = 'INSERT INTO schedule (type, name, date, start_time, end_time, description, uid) VALUES (?, ?, ?, ?, ?, ?, ?);';
 
     connection.query(updateDataQuery,
         [

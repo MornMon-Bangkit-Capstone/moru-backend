@@ -52,7 +52,7 @@ CREATE TABLE schedule (
   start_time VARCHAR(20) NOT NULL,
   end_time VARCHAR(20) NOT NULL,
   description TEXT NOT NULL,
-  uid CHAR(50) NOT NULL,
+  uid INT NOT NULL,
   FOREIGN KEY (uid) REFERENCES users(id)
 );
 
