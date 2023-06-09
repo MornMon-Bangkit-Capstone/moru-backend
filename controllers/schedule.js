@@ -1,5 +1,4 @@
 const pool = require('database/index');
-const {v4: uuidv4} = require('uuid');
 
 // get all schedule
 exports.getAllSchedule = async (req, res) => {
@@ -160,10 +159,9 @@ exports.postSchedule = async (req, res) => {
     // POST data to database
     // eslint-disable-next-line max-len
     const updateDataQuery = 'INSERT INTO schedule (id, type, name, date, start_time, end_time, description, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
-    const id = 'schedule-' + uuidv4();
+
     connection.query(updateDataQuery,
         [
-          id,
           type,
           name,
           date,
