@@ -37,6 +37,7 @@ exports.exercise = (req, res) => {
 
   const exerciseData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
+      connection.release();
       if (err) {
         console.error('Error connecting to database:', err);
         reject(err);
