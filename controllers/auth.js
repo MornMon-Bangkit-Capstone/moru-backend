@@ -25,6 +25,7 @@ exports.register = async (req, res) => {
   // Get a connection from the pool
   pool.getConnection((err, connection) => {
     if (err) {
+      connection.release();
       console.error('Error connecting to database:', err);
       return res.status(500).json({message: 'Internal server error.'});
     }
@@ -52,7 +53,6 @@ exports.register = async (req, res) => {
       const insertUserQuery = 'INSERT INTO users ( email, password) VALUES ( ?, ?)';
       connection.query(insertUserQuery,
           [email, hashedPassword], (err, results) => {
-            connection.release();
             if (err) {
               connection.release();
               console.error('Error inserting user:', err);
