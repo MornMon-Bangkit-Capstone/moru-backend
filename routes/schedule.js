@@ -4,7 +4,9 @@ const {authenticateToken, checkValidity} = require('../middleware/auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 router.get('/', authenticateToken, scheduleController.getAllSchedule);
-router.get('/:id', authenticateToken, scheduleController.getScheduleDetail);
+router.get('/:id', authenticateToken,
+    checkValidity('schedule'),
+    scheduleController.getScheduleDetail);
 router.post('/', authenticateToken, scheduleController.postSchedule);
 router.put('/:id', authenticateToken,
     checkValidity('schedule'),

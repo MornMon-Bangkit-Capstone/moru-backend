@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const pool = require('database/index');
-exports.authenticateToken = (req, res, next) => {
+exports.authenticateToken = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (token == null) {
@@ -10,7 +10,7 @@ exports.authenticateToken = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, result) => {
+  await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, result) => {
     if (err) {
       return res.status(403).json({
         error: true,
@@ -24,6 +24,7 @@ exports.authenticateToken = (req, res, next) => {
       });
     }
     req.user = result;
+    // console.log(req.user);
     next();
   });
 };

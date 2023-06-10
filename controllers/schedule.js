@@ -61,7 +61,6 @@ exports.getAllSchedule = (req, res) => {
 // get schedule detail
 exports.getScheduleDetail = (req, res) => {
   const {id} = req.params;
-  const uid = req.user.id;
 
   const getScheduleDetailData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
@@ -75,13 +74,6 @@ exports.getScheduleDetail = (req, res) => {
           connection.release();
           console.error('Error querying database:', err);
           reject(err);
-        }
-
-        if (results.length === 0) {
-          reject(new Error('Schedule not found'));
-        }
-        if (results[0].uid !== uid) {
-          reject(new Error('Forbidden'));
         }
         return res.status(201).json({
           error: false,
@@ -100,18 +92,6 @@ exports.getScheduleDetail = (req, res) => {
     });
   })
       .catch((err)=>{
-        if (err.message === 'Schedule not found') {
-          return res.status(404).json({
-            error: true,
-            message: err.message,
-          });
-        }
-        if (err.message === 'Forbidden') {
-          return res.status(403).json({
-            error: true,
-            message: err.message,
-          });
-        }
         return res.status(500).json({
           error: true,
           message: err.message,
