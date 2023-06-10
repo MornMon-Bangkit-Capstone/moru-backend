@@ -459,7 +459,8 @@ sample request form:
 ### GET Schedule
 
 - URL
-  - `/schedule`
+  - `/schedule?key=yyyy-mm-dd`
+  - key is optional. If exist return certain date, if not return all schedule
 - Method
   - `Get`
 - Parameter
