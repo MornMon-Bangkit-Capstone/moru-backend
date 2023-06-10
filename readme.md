@@ -577,6 +577,7 @@ sample request form:
   - `startTime` as `string`
   - `endTime` as `string`
   - `description` as `string`
+  - `status` as `string` ex: ```STARTED```, default is ```NOT_STARTED```
 - Response
 
 ```
