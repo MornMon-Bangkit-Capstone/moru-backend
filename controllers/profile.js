@@ -9,7 +9,7 @@ exports.userbyID = async (req, res) => {
       return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    const checkUsersQuery = 'SELECT name, email, birthDate, goal, profilePicture FROM users WHERE id = ?';
+    const checkUsersQuery = 'SELECT username, email, birthDate, goal, profilePicture FROM users WHERE id = ?';
     connection.query(checkUsersQuery, [id], (err, results) => {
       connection.release();
       if (err) {
