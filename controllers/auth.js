@@ -39,6 +39,7 @@ exports.register = async (req, res) => {
       }
 
       if (results.length > 0) {
+        connection.release();
         return res.status(409).json({
           error: true,
           message: 'Email already exists, login instead',
@@ -53,11 +54,12 @@ exports.register = async (req, res) => {
           [email, hashedPassword], (err, results) => {
             connection.release();
             if (err) {
+              connection.release();
               console.error('Error inserting user:', err);
               // eslint-disable-next-line max-len
               return res.status(500).json({message: 'Internal server error.'});
             }
-
+            connection.release();
             return res.status(201).json({
               error: false,
               message: 'User Created',
@@ -78,6 +80,7 @@ exports.login = (req, res) => {
   // Get a connection from the pool
   pool.getConnection((err, connection) => {
     if (err) {
+      connection.release();
       console.error('Error connecting to database:', err);
       return res.status(500).json({message: 'Internal server error.'});
     }
@@ -86,12 +89,13 @@ exports.login = (req, res) => {
     // eslint-disable-next-line max-len
     const findUserQuery = 'SELECT * FROM users WHERE email = ?';
     connection.query(findUserQuery, [email], async (err, results) => {
-      connection.release();
       if (err) {
+        connection.release();
         console.error('Error querying database:', err);
         return res.status(500).json({message: 'Internal server error.'});
       }
       if (results.length === 0) {
+        connection.release();
         return res.status(409).json({
           error: true,
           message: 'Invalid email or password.',
@@ -100,6 +104,7 @@ exports.login = (req, res) => {
       // eslint-disable-next-line max-len
       const hashedPassword = await bcrypt.compare(password, results[0].password);
       if (!results || !hashedPassword) {
+        connection.release();
         return res.status(409).json({
           error: true,
           message: 'Invalid email or password.',
@@ -110,6 +115,7 @@ exports.login = (req, res) => {
       const token = jwt.sign({id}, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRES_IN,
       });
+      connection.release();
       return res.status(201).json({
         error: false,
         message: 'success',

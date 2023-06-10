@@ -3,11 +3,13 @@ const querystring = require('querystring');
 // Define the API endpoint and parameters
 const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
 const pool = require('database/index');
-const {v4: uuidv4} = require('uuid');
+
+
+// const {v4: uuidv4} = require('uuid');
 
 
 // const jwt = require('jsonwebtoken');
-exports.exercise = async (req, res) => {
+exports.exercise = (req, res) => {
   // Get the page number from the request query parameters
   const page = req.query.page || 1;
   const limit = req.query.limit || 20;
@@ -17,112 +19,167 @@ exports.exercise = async (req, res) => {
   // Calculate the offset based on the page number
   const offset = (page - 1) * pageSize;
   const uid = req.user.id;
-
+  console.log(uid);
   // eslint-disable-next-line max-len, quotes
-  const checkExercisesQuery="(SELECT id, Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle, Category,'0' AS isPublic FROM privateExercises WHERE Sports LIKE '%"+key+"%' AND uid = ?)UNION(SELECT *,'1' AS isPublic FROM exercises WHERE Sports LIKE '%"+key+"%')LIMIT "+offset+","+pageSize;
+  const checkExercisesQuery="(" +
+  // eslint-disable-next-line max-len
+  'SELECT id, Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle, Category, \'0\' AS isPublic ' +
+  'FROM privateExercises ' +
+  'WHERE Sports LIKE \'%' + key + '%\' AND uid = ' + uid +
+  ')' +
+  'UNION ' +
+  '(' +
+  'SELECT *, \'1\' AS isPublic ' +
+  'FROM exercises ' +
+  'WHERE Sports LIKE \'%' + key + '%\' ' +
+  ')' +
+  'LIMIT ' + offset + ',' + pageSize;
 
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      return res.status(500).json({message: 'Internal server error.'});
-    }
-
-    // eslint-disable-next-line max-len
-    connection.query(checkExercisesQuery, [uid], (err, result) => {
+  const exerciseData= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
-        console.error('Error querying database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        console.error('Error connecting to database:', err);
+        reject(err);
       }
-      if (result.length === 0) {
-        return res.status(404).json({
-          error: true,
-          message: 'Exercise not found',
-        });
-      }
-      return res.status(201).json({
-        error: false,
-        message: 'Exercises fetched successfully',
-        list: result,
+
+      // eslint-disable-next-line max-len
+      connection.query(checkExercisesQuery, (err, result) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        if (result.length === 0) {
+          reject(new Error('Exercise not found'));
+        }
+        resolve(result);
       });
+      connection.release();
     });
   });
+  exerciseData.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Exercises fetched successfully',
+      list: result,
+    });
+  })
+      .catch((err)=>{
+        if (err.message === 'Exercise not found') {
+          return res.status(404).json({
+            error: true,
+            message: err.message,
+          });
+        }
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      })
+  ;
 };
 
-exports.exerciseDetail = async (req, res) => {
+exports.exerciseDetail = (req, res) => {
   const {id, isPublic} = req.params;
   const location=(isPublic==0)?'privateExercises':'exercises';
   const checkExercisesQuery = 'SELECT * FROM '+location+' WHERE id= ?';
   console.log(isPublic);
-
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      return res.status(500).json({message: 'Internal server error.'});
-    }
-
-    connection.query(checkExercisesQuery, [id], (err, results) => {
+  const exerciseDetailData= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
-        console.error('Error querying database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        console.error('Error connecting to database:', err);
+        reject(err);
       }
 
-      if (results.length === 0) {
-        return res.status(404).json({
-          error: true,
-          message: 'Exercise not found',
-        });
-      }
-      return res.status(201).json({
-        error: false,
-        message: 'Exercises fetched successfully',
-        list: results,
+      connection.query(checkExercisesQuery, [id], (err, result) => {
+        if (err) {
+          connection.release();
+          reject(err);
+        }
+        if (result.length === 0) {
+          reject(new Error('Exercise not found'));
+        }
+        resolve(result);
       });
+      connection.release();
     });
   });
+  exerciseDetailData.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Exercises fetched successfully',
+      list: result,
+    });
+  })
+      .catch((err)=>{
+        if (err.message === 'Exercise not found') {
+          return res.status(404).json({
+            error: true,
+            message: err.message,
+          });
+        }
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      });
 };
 
 // POST new exercise. For premium only
-exports.exercisePost = async (req, res) => {
+exports.exercisePost = (req, res) => {
   const uid = req.user.id;
   // eslint-disable-next-line max-len
   const {title, description, visual, duration, location, numberOfPeople, equipment, muscle, category} = req.body;
-
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      return res.status(500).json({message: 'Internal server error.'});
-    }
-    // eslint-disable-next-line max-len
-    const insertExerciseQuery = 'INSERT INTO privateExercises (Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle, Category, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    connection.query(insertExerciseQuery, [
-      title,
-      description,
-      visual,
-      duration,
-      location,
-      numberOfPeople,
-      equipment,
-      muscle,
-      category,
-      uid,
-    ], (err, results) => {
+  const exercisePostData= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
-        console.error('Error querying database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        console.error('Error connecting to database:', err);
+        reject(err);
       }
-      return res.status(201).json({
-        error: false,
-        message: 'Exercise added successfully',
+      // eslint-disable-next-line max-len
+      const insertExerciseQuery = 'INSERT INTO privateExercises (Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle, Category, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      connection.query(insertExerciseQuery, [
+        title,
+        description,
+        visual,
+        duration,
+        location,
+        numberOfPeople,
+        equipment,
+        muscle,
+        category,
+        uid,
+      ], (err, result) => {
+        if (err) {
+          connection.release();
+          reject(err);
+        }
+        resolve(result);
       });
+      connection.release();
     });
   });
+  exercisePostData.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Exercises added successfully',
+    });
+  })
+      .catch((err)=>{
+        if (err.message === 'Exercise not found') {
+          return res.status(404).json({
+            error: true,
+            message: err.message,
+          });
+        }
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      });
 };
 
 // GET all book from google book API
-exports.book = async (req, res) => {
+exports.book = (req, res) => {
   // Get the page number from the request query parameters
   const page = req.query.page || 1;
   const limit = req.query.limit || 20;
@@ -135,71 +192,111 @@ exports.book = async (req, res) => {
 
   // Get book
   // eslint-disable-next-line max-len, quotes
-  const checkBooksQuery="(SELECT ISBN, BookTitle, BookAuthor, YearOfPublication, Publisher, ImageURLL, Author, Summary, AvgRating, CountRating, Genres,'0' AS isPublic FROM privateBooks WHERE BookTitle LIKE '%"+key+"%' OR Author LIKE '%"+key+"%' AND uid = ?)UNION(SELECT *,'1' AS isPublic FROM books WHERE BookTitle LIKE '%"+key+"%' OR Author LIKE '%"+key+"%')LIMIT "+offset+","+pageSize;
+  const checkBooksQuery= "(" +
+  // eslint-disable-next-line max-len
+  'SELECT ISBN, BookTitle, BookAuthor, YearOfPublication, Publisher, ImageURLL, Author, Summary, AvgRating, CountRating, Genres, \'0\' AS isPublic ' +
+  'FROM privateBooks ' +
+  // eslint-disable-next-line max-len
+  'WHERE (BookTitle LIKE \'%' + key + '%\' OR Author LIKE \'%' + key + '%\') AND uid = ' + uid +
+  ')' +
+  'UNION ' +
+  '(' +
+  'SELECT *, \'1\' AS isPublic ' +
+  'FROM books ' +
+  'WHERE BookTitle LIKE \'%' + key + '%\' OR Author LIKE \'%' + key + '%\' ' +
+  ')' +
+  'LIMIT ' + offset + ',' + pageSize;
 
-
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      return res.status(500).json({message: 'Internal server error.'});
-    }
-
-    // eslint-disable-next-line max-len
-    connection.query(checkBooksQuery, [uid], (err, result) => {
+  const bookData= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
-        console.error('Error querying database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        console.error('Error connecting to database:', err);
+        reject(err);
       }
-      if (result.length === 0) {
-        return res.status(404).json({
-          error: true,
-          message: 'Book not found',
-        });
-      }
-      return res.status(201).json({
-        error: false,
-        message: 'Books fetched successfully',
-        list: result,
+
+      // eslint-disable-next-line max-len
+      connection.query(checkBooksQuery, (err, result) => {
+        if (err) {
+          connection.release();
+          reject(err);
+        }
+        if (result.length === 0) {
+          reject(new Error('Book not found'));
+        }
+        resolve(result);
       });
+      connection.release();
     });
   });
+  bookData.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Book fetched successfully',
+      list: result,
+    });
+  })
+      .catch((err)=>{
+        if (err.message === 'Book not found') {
+          return res.status(404).json({
+            error: true,
+            message: err.message,
+          });
+        }
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      });
 };
 
 // GET book detail
-exports.bookDetail = async (req, res) => {
+exports.bookDetail = (req, res) => {
   const {id, isPublic} = req.params;
   const location=(isPublic==0)?'privateBooks':'books';
   const checkBooksQuery = 'SELECT * FROM '+location+' WHERE ISBN= ?';
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      return res.status(500).json({message: 'Internal server error.'});
-    }
-    connection.query(checkBooksQuery, [id], (err, results) => {
+  const bookDetailData= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
-        console.error('Error querying database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        console.error('Error connecting to database:', err);
+        reject(err);
       }
+      connection.query(checkBooksQuery, [id], (err, result) => {
+        if (err) {
+          connection.release();
+          reject(err);
+        }
 
-      if (results.length === 0) {
-        return res.status(404).json({
-          error: true,
-          message: 'Books not found',
-        });
-      }
-      return res.status(201).json({
-        error: false,
-        message: 'Books fetched successfully',
-        list: results,
+        if (result.length === 0) {
+          reject(new Error('Book not found'));
+        }
+        resolve(result);
       });
+      connection.release();
     });
   });
-  // eslint-disable-next-line max-len
+
+  bookDetailData.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Book fetched successfully',
+      list: result,
+    });
+  })
+      .catch((err)=>{
+        if (err.message === 'Book not found') {
+          return res.status(404).json({
+            error: true,
+            message: err.message,
+          });
+        }
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      });
 };
 // POST new book. For premium only
-exports.bookPost = async (req, res) => {
+exports.bookPost = (req, res) => {
   const uid = req.user.id;
   const {ISBN,
     BookTitle,
@@ -213,39 +310,56 @@ exports.bookPost = async (req, res) => {
     Genres} = req.body;
   const Author='';
 
-
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error connecting to database:', err);
-      return res.status(500).json({message: 'Internal server error.'});
-    }
-    // eslint-disable-next-line max-len
-    const insertBookQuery = 'INSERT INTO privateBooks (ISBN, BookTitle, BookAuthor, YearOfPublication, Publisher, ImageURLL, Author, Summary, AvgRating, CountRating, Genres, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    connection.query(insertBookQuery, [
-      ISBN,
-      BookTitle,
-      BookAuthor,
-      YearOfPublication,
-      Publisher,
-      ImageURLL,
-      Author,
-      Summary,
-      AvgRating,
-      CountRating,
-      Genres,
-      uid,
-    ], (err, results) => {
+  const bookPostData= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
       if (err) {
-        connection.release();
-        console.error('Error querying database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        console.error('Error connecting to database:', err);
+        reject(err);
       }
-      return res.status(201).json({
-        error: false,
-        message: 'Book added successfully',
+      // eslint-disable-next-line max-len
+      const insertBookQuery = 'INSERT INTO privateBooks (ISBN, BookTitle, BookAuthor, YearOfPublication, Publisher, ImageURLL, Author, Summary, AvgRating, CountRating, Genres, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      connection.query(insertBookQuery, [
+        ISBN,
+        BookTitle,
+        BookAuthor,
+        YearOfPublication,
+        Publisher,
+        ImageURLL,
+        Author,
+        Summary,
+        AvgRating,
+        CountRating,
+        Genres,
+        uid,
+      ], (err, result) => {
+        if (err) {
+          connection.release();
+          reject(err);
+        }
+        resolve(result);
       });
+      connection.release();
     });
   });
+  bookPostData.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Book added successfully',
+    });
+  })
+      .catch((err)=>{
+        if (err.message === 'Book not found') {
+          return res.status(404).json({
+            error: true,
+            message: err.message,
+          });
+        }
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      })
+  ;
 };
 
 // Params to search
