@@ -2,8 +2,9 @@ const pool = require('database/index');
 
 // get all schedule
 exports.getAllSchedule = (req, res) => {
-  const {id} = req.user;
-  console.log(id);
+  const uid = req.user.id;
+  const key = req.query.key;
+
   const getScheduleData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
       if (err) {
@@ -11,20 +12,29 @@ exports.getAllSchedule = (req, res) => {
         console.error('Error connecting to database:', err);
         reject(err);
       }
-      const checkScheduleQuery = 'SELECT * FROM schedule WHERE uid= '+id;
-      connection.query(checkScheduleQuery, (err, result) => {
-        console.log(checkScheduleQuery);
+      // eslint-disable-next-line max-len, quotes
+      let checkScheduleQuery = "SELECT * FROM schedule WHERE uid = ? ";
+      const values=[uid];
+      if (key) {
+        // eslint-disable-next-line quotes
+        checkScheduleQuery+="AND date = ?";
+        values.push(key);
+      }
+      connection.query(checkScheduleQuery, values, (err, result) => {
+        // console.log(checkScheduleQuery);
         if (err) {
           connection.release();
           console.error('Error querying database:', err);
           reject(err);
         }
-
-        if (result.length === 0) {
+        // console.log(result);
+        if (!result || result.length === 0) {
+          // connection.release();
           reject(new Error('Schedule not found'));
         }
-        connection.release();
+
         resolve(result);
+        connection.release();
       });
     });
   });
@@ -112,7 +122,7 @@ exports.getScheduleDetail = (req, res) => {
 exports.editScheduleDetail = (req, res) => {
   const {id} = req.params;
 
-  const {type, name, date, startTime, endTime, description} = req.body;
+  const {type, name, date, startTime, endTime, description, status} = req.body;
 
   const editScheduleData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
@@ -145,6 +155,10 @@ exports.editScheduleDetail = (req, res) => {
       if (description) {
         putScheduleDetailQuery += ' description = ?,';
         values.push(description);
+      }
+      if (status) {
+        putScheduleDetailQuery += ' status = ?,';
+        values.push(status);
       }
       putScheduleDetailQuery = putScheduleDetailQuery.slice(0, -1);
 
