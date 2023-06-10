@@ -17,10 +17,10 @@ exports.authenticateToken = (req, res, next) => {
         message: err.message,
       });
     }
-    if (!Number.isInteger(result)) {
+    if (!Number.isSafeInteger(result.id)) {
       return res.status(401).json({
         error: true,
-        message: 'Invalid token',
+        message: 'not int',
       });
     }
     req.user = result;
