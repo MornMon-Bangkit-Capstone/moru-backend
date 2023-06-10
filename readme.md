@@ -110,7 +110,10 @@ Password: morui
 Get all exercises from database. If user has personal items, those will appear first
 
 - URL
-  - `/routine/exercises`
+  - `/routine/exercises?page=1&limit=10&key=run`
+  - page= What page
+  - limit= how much item in a page
+  - key= search query (will return coresponding exercise title)
 - Method
   - `GET`
 - Parameter
@@ -123,27 +126,41 @@ Get all exercises from database. If user has personal items, those will appear f
     "message": "Exercises fetched successfully",
     "list": [
         {
-            "id": "exrcise-Fqe4u0Vp2SwaesFg",
-            "title": "Push Up 200 kali",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "description": "Lorem Ipsum",
-        }
+            "id": 3,
+            "Sports": "Ball Crunch",
+            "Description": "Stretch with the help of a gym ball.\n",
+            "Visual": "",
+            "Duration_Min": "1-5",
+            "Location": "Indoor",
+            "Number_of_people": "1",
+            "Equipment": "Yes",
+            "Muscle": "lower back muscles, lower abdominals, hip flexors, obliques, rectus abdominis, obliques, transverse abdominis",
+            "Category": "Core\r",
+            "isPublic": "1"
+        },
         {
-            "id": "exrcise-Fqe4u0Vp2SwaesFg",
-            "title": "Lari 10km",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "description": "Lorem Ipsum",
+            "id": 9,
+            "Sports": "Crunches",
+            "Description": "Position that bend your knees and place your arms across your chest. Contract your abs and inhale. Exhale and lift your upper body, keeping your head and neck relaxed.",
+            "Visual": "",
+            "Duration_Min": "1-5",
+            "Location": "Indoor",
+            "Number_of_people": "1",
+            "Equipment": "No",
+            "Muscle": "rectus abdominis, internal and external obliques, transversus abdominis, hip flexors, obliques, hip flexors, lower back",
+            "Category": "Core\r",
+            "isPublic": "1"
         }
-    ]
+	]
 }
 ```
 
 ### Get Exercise Detail
 
 - URL
-  - `/routine/exercises/:id`
+  - `/routine/exercises/:id/:isPublic`
+  - id= Exercise id
+  - isPublic= 0 or 1 for false and true
 - Method
   - `GET`
 - Parameter
@@ -153,15 +170,22 @@ Get all exercises from database. If user has personal items, those will appear f
 ```
 {
     "error": false,
-    "message": "Exercises recommendation fetched successfully",
-    "book": {
-            "id": "exercise-FvU4u0Vp2S3PMsFg",
-            "title": "Saitama Morning Routine",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "duration": "36000",
-            "description": "Lorem Ipsum",
+    "message": "Exercises fetched successfully",
+    "list": [
+        {
+            "id": 2,
+            "Sports": "Running",
+            "Description": "A description of the exercise",
+            "Visual": "https://example.com/image.jpg",
+            "Duration_Min": "30",
+            "Location": "Indoor",
+            "Number_of_people": "1",
+            "Equipment": "Yes",
+            "Muscle": "Legs, Arms",
+            "Category": "Cardio",
+            "uid": 16527
         }
+    ]
 }
 ```
 
@@ -175,18 +199,28 @@ Get all exercises from database. If user has personal items, those will appear f
   - `Authorization: Bearer <token>`
 - Request Body:
   - `title` as `string`
-  - `imgUrl` as `string`
-  - `type` as `string`
   - `description` as `string`
+  - `visual` as `string`
+  - `duration` as `int` in minutes
+  - `location` as `string` indoor/outdoor
+  - `numberOfPeople` as `int` 
+  - `equipment` as `string`  yes/no
+  - `muscle` as `string`
+  - `category` as `string`
 
+sample request:
 
-sample request form:
 ```
 {
-    "title":"Book of Death",
-    "imgUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
-    "type": "hardcore",
-    "description": "500 push up, 500 sit up, 5 hour plank, 15km run"
+  "title": "Running",
+  "description": "A description of the exercise",
+  "visual": "https://example.com/image.jpg",
+  "duration": "30",
+  "location": "Indoor",
+  "numberOfPeople": "1",
+  "equipment": "Yes",
+  "muscle": "Legs, Arms",
+  "category": "Cardio"
 }
 ```
 - Response
@@ -194,7 +228,7 @@ sample request form:
 ```
 {
     "error": false,
-    "message": "Book added Succesfully",
+    "message": "Exercise added successfully"
 }
 ```
 
@@ -202,7 +236,10 @@ sample request form:
 Get all books from database. If user has personal items, those will appear first
 
 - URL
-  - `/routine/books`
+  - `/routine/books?page=1&limit=10&key=harry`
+  - page= What page
+  - limit= how much item in a page
+  - key= search query (will return coresponding book title or author)
 - Method
   - `GET`
 - Parameter
@@ -212,29 +249,44 @@ Get all books from database. If user has personal items, those will appear first
 ```
 {
     "error": false,
-    "message": "Book fetched successfully",
+    "message": "Books fetched successfully",
     "list": [
         {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "Psychology of Money",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Moral, Psychology",
-            "description": "Lorem Ipsum",
+            "ISBN": 60268654,
+            "BookTitle": "Harry the Dirty Dog",
+            "BookAuthor": "Gene Zion",
+            "YearOfPublication": 1956,
+            "Publisher": "HarperCollins",
+            "ImageURLL": "http://images.amazon.com/images/P/0060268654.01.LZZZZZZZ.jpg",
+            "Author": "",
+            "Summary": " The family dog, Harry, disenchanted with taking baths, buries the bathtub scrubber and runs away from home. Harry gets dirty and returns home only to find his family does not recognize him. He attempts to get his family to realize it's him only succeed when he brings back the brush he buried.",
+            "AvgRating": 9,
+            "CountRating": 1,
+            "Genres": "[\"Children's literature\"]",
+            "isPublic": "1"
         },
         {
-            "id": "exrcise-Fqe4u0Vp2SwaesFg",
-            "title": "Push Up 200 kali",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "description": "Lorem Ipsum",
-        }
-    ]
+            "ISBN": 140239375,
+            "BookTitle": "The Discovery of Heaven",
+            "BookAuthor": "Harry Mulisch",
+            "YearOfPublication": 1997,
+            "Publisher": "Penguin Books",
+            "ImageURLL": "http://images.amazon.com/images/P/0140239375.01.LZZZZZZZ.jpg",
+            "Author": "Harry Mulisch",
+            "Summary": " The Discovery of Heaven tells the story of an angel-like being, who is ordered to return to Heaven the stone tablets containing the Ten Commandments, given to Moses by God, which symbolise in the book the link between Heaven and Earth."
+	    "AvgRating": 9,
+            "CountRating": 1,
+            "Genres": "[\"Children's literature\"]",
+            "isPublic": "1"
+        }]
 }
 ```
 ### Get Book Detail
 
 - URL
-  - `/routine/books/:id`
+  - `/routine/books/:id/:isPublic`  
+  - id= book id
+  - isPublic= 0 or 1 for false and true
 - Method
   - `GET`
 - Parameter
@@ -244,16 +296,22 @@ Get all books from database. If user has personal items, those will appear first
 ```
 {
     "error": false,
-    "message": "Books recommendation fetched successfully",
-    "book": {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "Psychology of Money",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Moral, Psychology",
-            "pages": "542",
-            "rating": "8",
-            "description": "Lorem Ipsum",
+    "message": "Books fetched successfully",
+    "list": [
+        {
+            "ISBN": 60268654,
+            "BookTitle": "Harry the Dirty Dog",
+            "BookAuthor": "Gene Zion",
+            "YearOfPublication": 1956,
+            "Publisher": "HarperCollins",
+            "ImageURLL": "http://images.amazon.com/images/P/0060268654.01.LZZZZZZZ.jpg",
+            "Author": "",
+            "Summary": " The family dog, Harry, disenchanted with taking baths, buries the bathtub scrubber and runs away from home. Harry gets dirty and returns home only to find his family does not recognize him. He attempts to get his family to realize it's him only succeed when he brings back the brush he buried.",
+            "AvgRating": 9,
+            "CountRating": 1,
+            "Genres": "[\"Children's literature\"]"
         }
+    ]
 }
 ```
 
@@ -266,21 +324,28 @@ Get all books from database. If user has personal items, those will appear first
 - Parameter
   - `Authorization: Bearer <token>`
 - Request Body:
-  - `title` as `string`
-  - `imgUrl` as `string`
-  - `pdfUrl` as `string`
-  - `type` as `string`
-  - `description` as `string`
+  - `BookTitle` as `string`
+  - `BookAuthor` as `string`
+  - `YearOfPublication` as `int`
+  - `ImageURLL` as `string`
+  - `Summary` as `string`
+  - `AvgRating` as `int`
+  - `CountRating` as `int`
+  - `Genres` as `string`
 
 
 sample request form:
 ```
 {
-    "title":"Book of Death",
-    "imgUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
-    "pdfUrl":"https://i.ibb.co/LSscmwk/Google-G-Logo-svg.png",
-    "type": "hardcore",
-    "description": "500 push up, 500 sit up, 5 hour plank, 15km run"
+  "BookTitle": "Sample Book2",
+  "BookAuthor": "John Doe",
+  "YearOfPublication": 2023,
+  "Publisher": "Sample Publisher",
+  "ImageURLL": "https://example.com/book-image.jpg",
+  "Summary": "This is a sample book summary.",
+  "AvgRating": null,
+  "CountRating": null,
+  "Genres": "Fiction, Mystery"
 }
 ```
 - Response
