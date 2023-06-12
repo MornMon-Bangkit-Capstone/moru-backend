@@ -358,6 +358,32 @@ sample request form:
     "message": "Book added Succesfully",
 }
 ```
+### POST Book Rating
+
+- URL
+  - `/routine/bookrate`
+- Method
+  - `POST`
+- Parameter
+  - `Authorization: Bearer <token>`
+- Request Body:
+  - `ISBN` as `string`
+  - `bookRating` as `string`
+sample request form:
+```
+{
+    "ISBN":"0060517794",
+    "bookRating":"9"
+}
+```
+- Response
+
+```
+{
+    "error": false,
+    "message": "Book rated successfully"
+}
+```
 
 ### Get Books Recommendation
 
