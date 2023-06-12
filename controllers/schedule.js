@@ -32,9 +32,8 @@ exports.getAllSchedule = (req, res) => {
           // connection.release();
           reject(new Error('Schedule not found'));
         }
-
-        resolve(result);
         connection.release();
+        resolve(result);
       });
     });
   });
@@ -69,19 +68,15 @@ exports.getScheduleDetail = (req, res) => {
         reject(err);
       }
       const getScheduleDetailQuery = 'SELECT * FROM schedule WHERE id= ?';
-      connection.query(getScheduleDetailQuery, [id], (err, results) => {
+      connection.query(getScheduleDetailQuery, [id], (err, result) => {
         if (err) {
           connection.release();
           console.error('Error querying database:', err);
           reject(err);
         }
-        return res.status(201).json({
-          error: false,
-          message: 'Schedule fetched successfully',
-          schedule: results,
-        });
+        connection.release();
+        resolve(result);
       });
-      connection.release();
     });
   });
   getScheduleDetailData.then((result)=>{
@@ -156,7 +151,7 @@ exports.editScheduleDetail = (req, res) => {
           console.error('Error querying database:', err);
           reject(err);
         }
-        //  connection.release();
+        connection.release();
         resolve();
       });
     });
@@ -233,6 +228,7 @@ exports.postSchedule = (req, res) => {
               console.error('Error querying database:', err);
               reject(err);
             }
+            connection.release();
             resolve();
           });
     });
@@ -268,6 +264,7 @@ exports.deleteSchedule = (req, res) => {
           console.error('Error querying database:', err);
           reject(err);
         }
+        connection.release();
         resolve();
       });
     });
