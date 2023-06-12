@@ -23,7 +23,7 @@ exports.exercise = (req, res) => {
   // eslint-disable-next-line max-len, quotes
   const checkExercisesQuery="(" +
   // eslint-disable-next-line max-len
-  'SELECT id, Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle, Category, Video, \'0\' AS isPublic ' +
+  'SELECT id, Sports, Description, Visual, Duration_Min, Location, Number_of_people, Equipment, Muscle, Category,Video, \'0\' AS isPublic ' +
   'FROM privateExercises ' +
   'WHERE Sports LIKE \'%' + key + '%\' AND uid = ' + uid +
   ')' +
@@ -39,6 +39,7 @@ exports.exercise = (req, res) => {
     pool.getConnection((err, connection) => {
       if (err) {
         connection.release();
+
         console.error('Error connecting to database:', err);
         reject(err);
       }

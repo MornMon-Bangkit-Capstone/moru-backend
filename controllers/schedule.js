@@ -102,7 +102,8 @@ exports.getScheduleDetail = (req, res) => {
 exports.editScheduleDetail = (req, res) => {
   const {id} = req.params;
 
-  const {type, name, date, startTime, endTime, description, status} = req.body;
+  // eslint-disable-next-line max-len
+  const {type, name, date, startTime, endTime, description, status, durationMin} = req.body;
 
   const editScheduleData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
@@ -140,6 +141,10 @@ exports.editScheduleDetail = (req, res) => {
         putScheduleDetailQuery += ' status = ?,';
         values.push(status);
       }
+      if (durationMin) {
+        putScheduleDetailQuery += ' durationMin = ?,';
+        values.push(durationMin);
+      }
       putScheduleDetailQuery = putScheduleDetailQuery.slice(0, -1);
 
       putScheduleDetailQuery += ' WHERE id = ?';
@@ -169,11 +174,20 @@ exports.editScheduleDetail = (req, res) => {
   });
 };
 exports.postSchedule = (req, res) => {
-  const {type, name, date, startTime, endTime, description} = req.body;
+  const {
+    type,
+    name,
+    date,
+    startTime,
+    endTime,
+    description,
+    isPublic,
+    refId} = req.body;
   const uid = req.user.id;
 
   // Check if name, birthdate, and profile picture are provided
-  if (!type || !name || !date || !startTime || !endTime || !description) {
+  // eslint-disable-next-line max-len
+  if (!type || !name || !date || !startTime || !endTime || !description||!isPublic ||!refId) {
     const emptyFields = [];
     if (!type) emptyFields.push('type');
     if (!name) emptyFields.push('name');
@@ -181,6 +195,8 @@ exports.postSchedule = (req, res) => {
     if (!startTime) emptyFields.push('startTime');
     if (!endTime) emptyFields.push('endTime');
     if (!description) emptyFields.push('description');
+    if (!isPublic) emptyFields.push('isPublic');
+    if (!refId) emptyFields.push('refId');
     const errorMessage =
     'Please fill the following required fields: ' + emptyFields.join(', ');
     return res.status(401).json({
@@ -198,7 +214,7 @@ exports.postSchedule = (req, res) => {
 
       // POST data to database
       // eslint-disable-next-line max-len
-      const updateDataQuery = 'INSERT INTO schedule (type, name, date, start_time, end_time, description, uid) VALUES (?, ?, ?, ?, ?, ?, ?);';
+      const updateDataQuery = 'INSERT INTO schedule (type, name, date, start_time, end_time, description, isPublic, refId, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);';
 
       connection.query(updateDataQuery,
           [
@@ -208,6 +224,8 @@ exports.postSchedule = (req, res) => {
             startTime,
             endTime,
             description,
+            isPublic,
+            refId,
             uid,
           ], (err, results) => {
             if (err) {

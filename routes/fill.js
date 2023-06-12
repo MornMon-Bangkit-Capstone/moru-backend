@@ -4,7 +4,7 @@ const fillController = require('controllers/fill');
 const {authenticateToken} = require('middleware/auth');
 // eslint-disable-next-line new-cap
 const router = express.Router();
-router.post('/data', authenticateToken, fillController.fillData);
+router.post('/data', authenticateToken, fillController.editFillDetail);
 
 module.exports = router;
 

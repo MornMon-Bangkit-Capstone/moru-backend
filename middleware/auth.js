@@ -36,8 +36,12 @@ exports.checkValidity = (tableName) => {
 
     pool.getConnection((err, connection) => {
       if (err) {
+        connection.release();
         console.error('Error connecting to database:', err);
-        return res.status(500).json({message: 'Internal server error.'});
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
       }
 
       const findIdQuery = `SELECT uid FROM ${tableName} WHERE id = ?`;

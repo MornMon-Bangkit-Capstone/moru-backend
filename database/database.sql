@@ -55,6 +55,24 @@ CREATE TABLE schedule (
   uid INT NOT NULL,
   FOREIGN KEY (uid) REFERENCES users(id)
 );
+CREATE TABLE exerciseHistory (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  isPublic ENUM('YES', 'NO') NOT NULL,
+  uid INT NOT NULL,
+  exerciseId INT NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(id),
+  FOREIGN KEY (exerciseId) REFERENCES exercises(id)
+);
+CREATE TABLE bookHistory (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  isPublic ENUM('YES', 'NO') NOT NULL,
+  uid INT NOT NULL,
+  bookId INT NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(id),
+  FOREIGN KEY (bookId) REFERENCES books(id)
+);
 
 INSERT INTO `exercises` (`id`, `title`, `img_url`, `type`, `description`) 
 VALUES (CONCAT('exercise-', UUID()), 
