@@ -67,6 +67,8 @@ Password: morui
   - `birthdate` as `Date`(yyyy-mm-dd)
   - `goal` as `string`
   - `profilePicture` as `string` (link to image)
+  - `favBook` as `string` (Favorite Book Name)
+  - `favExercise` as `string` (Favorite Exercise Name, Must be EXACTLY the same as Sports name in database
 - Response
 
 ```
@@ -357,39 +359,6 @@ sample request form:
 }
 ```
 
-### Get All Recommendation
-
-- URL
-  - `/recommendation`
-- Method
-  - `GET`
-- Parameter
-  - `Authorization: Bearer <token>`
-- Response
-
-```
-{
-    "error": false,
-    "message": "Recommendations fetched successfully",
-    "listRecommendations": [
-        {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "Psychology of Money",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Moral, Psychology",
-            "description": "Lorem Ipsum",
-        },
-        {
-            "id": "exrcise-Fqe4u0Vp2SwaesFg",
-            "title": "Push Up 200 kali",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "description": "Lorem Ipsum",
-        }
-    ]
-}
-```
-
 ### Get Books Recommendation
 
 - URL
@@ -404,21 +373,36 @@ sample request form:
 {
     "error": false,
     "message": "Books recommendation fetched successfully",
-    "listRecommendations": [
-        {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "Psychology of Money",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Moral, Psychology",
-            "description": "Lorem Ipsum",
+    "list": [
+         {
+            "ISBN": 380624060,
+            "BookTitle": "Dream Children",
+            "BookAuthor": "Gail Godwin",
+            "YearOfPublication": 1987,
+            "Publisher": "Harper Mass Market Paperbacks (Mm)",
+            "ImageURLL": "http://images.amazon.com/images/P/0380624060.01.LZZZZZZZ.jpg",
+            "Author": "A. N. Wilson",
+            "Summary": " Paedophilia is at the heart of the story. Oliver Gold's pure thoughts, and seemingly asexual life contrast with the reality of his desires and deeds. Oliver abuses Bobs over a long period.",
+            "AvgRating": 0,
+            "CountRating": 0,
+            "Genres": "['Fiction', 'Novel']",
+            "isPublic": "0"
         },
-        {
-            "id": "book-FvU4u0Vp2S3PMsFg",
-            "title": "48 Laws of Power",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Moral, Psychology",
-            "description": "Lorem Ipsum",
+	{
+            "ISBN": 515133078,
+            "BookTitle": "Never Dream of Dying",
+            "BookAuthor": "Raymond Benson",
+            "YearOfPublication": 2002,
+            "Publisher": "Jove Books",
+            "ImageURLL": "http://images.amazon.com/images/P/0515133078.01.LZZZZZZZ.jpg",
+            "Author": "Raymond Benson",
+            "Summary": " It begins when a police raid goes horribly wrong, killing innocent men, women, and even children. Bond knows the Union is behind the carnage, and vows to take them down once and for all. His hunt takes him to Paris, into a deadly game of predator and prey, and a fateful meeting with the seductive Tylyn Mignonne, a movie star with a sordid past, who may lead Bond to his final target—or his own violent end... Eventually it leads him to the Union's latest attack on society, which involves Tylyn's husband, Leon Essinger, and his new movie, \"Pirate Island\", which stars Tylyn. (US Paperback) The conclusion to Benson’s Union Trilogy. Locations are Nice, Paris, Cannes, Monte Carlo, Corsica (also Los Angeles, Japan, and Chicago briefly).",
+            "AvgRating": 0,
+            "CountRating": 0,
+            "Genres": "['Spy fiction', 'Fiction']",
+            "isPublic": "0"
         },
+	...
     ]
 }
 ```
@@ -437,21 +421,36 @@ sample request form:
 {
     "error": false,
     "message": "Exercises recommendation fetched successfully",
-    "listRecommendations": [
+    "list": [
+       {
+            "id": 18,
+            "Sports": "Gym ",
+            "Description": "A gym is a club, building, or large room, usually containing a variety of specialized equipment, where people exercise and get fit.",
+            "Visual": "https://storage.googleapis.com/moru-bangkit-exercise-image/55.%20Gym.jpg",
+            "Duration_Min": "40-50",
+            "Location": "Indoor",
+            "Number_of_people": "1",
+            "Equipment": "Yes",
+            "Muscle": "chest, back, arms, shoulders, legs, calves, hamstrings, triceps, biceps, forearms ",
+            "Category": "Whole Body",
+            "Video": "https://www.youtube.com/watch?v=YvFWg-oUlG8",
+            "isPublic": "0"
+        },
         {
-            "id": "exrcise-Fqe4u0Vp2SwaesFg",
-            "title": "Push Up 200 kali",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "description": "Lorem Ipsum",
-        }
-        {
-            "id": "exrcise-Fqe4u0Vp2SwaesFg",
-            "title": "Lari 10km",
-            "img-url": "https://my-bucket/documents/example.jpg",
-            "type": "Hardcore",
-            "description": "Lorem Ipsum",
-        }
+            "id": 22,
+            "Sports": "Joging",
+            "Description": "A form of trotting or running at a slow or leisurely pace and maintaining a steady speed for longer periods of time.",
+            "Visual": "https://storage.googleapis.com/moru-bangkit-exercise-image/1.%20Joging.JPG",
+            "Duration_Min": "20-30",
+            "Location": "Outdoor",
+            "Number_of_people": "1",
+            "Equipment": "No",
+            "Muscle": "hamstrings, quads, calves, glutes, hip flexors, hamstrings, core muscles, calves",
+            "Category": "Lower Body",
+            "Video": "https://www.youtube.com/watch?v=gDrtnm91vbI",
+            "isPublic": "0"
+        },
+        ...
     ]
 }
 ```
