@@ -10,7 +10,7 @@ exports.exerciseRecom = (req, res) => {
   Promise.all([
     // `SELECT ${select} FROM ${tableName} WHERE ${col} = ? ${extra}`
     getDb('favExercise', 'users', 'id', uid, ''),
-    getDb('*', 'schedule', 'uid', uid, `type= 'EXERCISE' ORDER BY id DESC LIMIT 1`),
+    getDb('*', 'schedule', 'uid', uid, `AND type = 'EXERCISE' ORDER BY id DESC LIMIT 1`),
   ])
       .then(([
         getUserDataResult,
