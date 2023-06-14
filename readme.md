@@ -69,6 +69,7 @@ Password: morui
   - `profilePicture` as `string` (link to image)
   - `favBook` as `string` (Favorite Book Name)
   - `favExercise` as `string` (Favorite Exercise Name, Must be EXACTLY the same as Sports name in database
+  - `fillData` as int (0 or 1)
 - Response
 
 ```
@@ -81,29 +82,28 @@ Password: morui
 ### GET Profile
 
 - URL:
-  - `/profile/:id`
+  - `/profile`
 - Method:
   - `GET`
 - Parameter:
-  - `user_id` as `integer`
   - `Authorization: Bearer <token>`
 - Response
 
 ```
 {
     "error": false,
-    "message": "succes"
-    "profData":{
-        "profPicture": "https://drive.google.com/uc?id=1SMHO7F8qw7rXiDX2Xf4mncbYEe8rU7IN"
-	"Name": "Zainudin Ahmad"
-	"Date of Birth": "12 June 1999"
-	"Goals": "Live like larry"
-	"Favorite Book Category": "Pschicology"
-	"Favorite Book": "Dunia Sophie"
-	"Favorite Author": "Jostein Gaarder"
-	"Favorite Exercise Author": "Chest"
-	"Favorite Exercise": "Push Up"
-	"Exercise Experience": "Hardcore"
+    "message": "Data fetched successfully",
+    "data": {
+        "id": 16544,
+        "username": "budi",
+        "email": "new3@gmail.com",
+        "quota": 5,
+        "birthDate": null,
+        "goal": "to become a hero",
+        "profilePicture": null,
+        "favBook": "Lolicon Dream",
+        "favExercise": "Boxing",
+        "fillData": 1
     }
 }
 ```
