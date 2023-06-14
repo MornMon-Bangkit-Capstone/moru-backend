@@ -10,7 +10,7 @@ exports.exerciseRecom = (req, res) => {
   Promise.all([
     // `SELECT ${select} FROM ${tableName} WHERE ${col} = ? ${extra}`
     getDb('favExercise', 'users', 'id', uid, ''),
-    getDb('*', 'schedule', 'uid', uid, 'ORDER BY id DESC LIMIT 1'),
+    getDb('*', 'schedule', 'uid', uid, `type= 'EXERCISE' ORDER BY id DESC LIMIT 1`),
   ])
       .then(([
         getUserDataResult,
@@ -61,7 +61,8 @@ exports.bookRecom = (req, res) => {
   Promise.all([
     // `SELECT ${select} FROM ${tableName} WHERE ${col} = ?`
     getDb('favBook', 'users', 'id', uid, ''),
-    getDb('*', 'bookHistory', 'uid', uid, 'ORDER BY id DESC LIMIT 1'),
+    // eslint-disable-next-line max-len
+    getDb('*', 'schedule', 'uid', uid, `AND type= 'BOOK' ORDER BY id DESC LIMIT 1`),
     getDb('*', 'bookRating', 'UserID', uid, ''),
   ])
       .then(([
