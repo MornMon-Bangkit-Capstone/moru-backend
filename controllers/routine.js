@@ -338,9 +338,9 @@ exports.bookPost = (req, res) => {
           connection.release();
           reject(err);
         }
+        connection.release();
         resolve(result);
       });
-      connection.release();
     });
   });
   bookPostData.then((result)=>{
@@ -366,6 +366,42 @@ exports.bookPost = (req, res) => {
 
 // Post Book Rating
 
+exports.bookRating = (req, res) => {
+  const uid = req.user.id;
+  const {ISBN, bookRating}=req.body;
+  const bookPostRating= new Promise((resolve, reject)=>{
+    pool.getConnection((err, connection) => {
+      if (err) {
+        console.error('Error connecting to database:', err);
+        reject(err);
+      }
+      // eslint-disable-next-line max-len
+      const insertBookQuery = 'INSERT INTO bookRating (UserID, ISBN, BookRating) VALUES (?, ?, ?) ';
+      connection.query(insertBookQuery, [
+        uid, ISBN, bookRating,
+      ], (err, result) => {
+        if (err) {
+          connection.release();
+          reject(err);
+        }
+        connection.release();
+        resolve(result);
+      });
+    });
+  });
+  bookPostRating.then((result)=>{
+    return res.status(201).json({
+      error: false,
+      message: 'Book rated successfully',
+    });
+  })
+      .catch((err)=>{
+        return res.status(500).json({
+          error: true,
+          message: err.message,
+        });
+      });
+};
 
 // Params to search
 const params = {
