@@ -14,6 +14,7 @@ exports.editFillDetail = (req, res) => {
     birthDate,
     goal,
     favBook,
+    favAuthor,
     favExercise,
     fillData,
   } = req.body;
@@ -37,6 +38,10 @@ exports.editFillDetail = (req, res) => {
   if (favBook) {
     putDetailQuery += ' favBook = ?,';
     values.push(favBook);
+  }
+  if (favAuthor) {
+    putDetailQuery += ' favAuthor = ?,';
+    values.push(favAuthor);
   }
   if (favExercise) {
     putDetailQuery += ' favExercise = ?,';

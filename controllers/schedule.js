@@ -64,6 +64,7 @@ exports.getScheduleDetail = (req, res) => {
   const getScheduleDetailData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
       if (err) {
+        connection.release();
         console.error('Error connecting to database:', err);
         reject(err);
       }
@@ -103,6 +104,7 @@ exports.editScheduleDetail = (req, res) => {
   const editScheduleData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
       if (err) {
+        connection.release();
         console.error('Error connecting to database:', err);
         reject(err);
       }
