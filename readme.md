@@ -10,7 +10,7 @@ Password: morui
 
 ## API
 
-### Endpoint
+### Endpoint for backend
 
 ```https://moru-api-backend-inq7f5uz7q-et.a.run.app/```
 
@@ -62,12 +62,14 @@ Password: morui
   - `/auth/fill/data`
 - Method
   - `POST`
+- Parameter:
+  - `Authorization: Bearer <token>`
 - Request Body
   - `name` as `string`
   - `birthdate` as `Date`(yyyy-mm-dd)
   - `goal` as `string`
-  - `profilePicture` as `string` (link to image)
   - `favBook` as `string` (Favorite Book Name)
+  - `favAuthor` as `string` (Favorite Book Author)
   - `favExercise` as `string` (Favorite Exercise Name, Must be EXACTLY the same as Sports name in database
   - `fillData` as int (0 or 1)
 - Response
@@ -76,6 +78,24 @@ Password: morui
 {
     "error": false,
     "message": "success",
+}
+```
+### Fill Profile Image
+
+- URL
+  - `/auth/fill/image`
+- Method
+  - `POST`
+- Parameter:
+  - `Authorization: Bearer <token>`
+- Request Body
+  - `image` as `image format`
+- Response
+
+```
+{
+    "error": false,
+    "message": "image uploaded successfully"
 }
 ```
 
