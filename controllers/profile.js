@@ -10,7 +10,7 @@ exports.userbyID =(req, res) => {
       }
 
       // eslint-disable-next-line max-len
-      const checkUsersQuery = 'SELECT id, username, email, quota, birthDate, goal, profilePicture, favBook, favAuthor favExercise, fillData FROM users WHERE id = ?';
+      const checkUsersQuery = 'SELECT id, username, email, quota, birthDate, goal, profilePicture, favBook, favAuthor, favExercise, fillData FROM users WHERE id = ?';
       connection.query(checkUsersQuery, [id], (err, result) => {
         if (err) {
           connection.release();
