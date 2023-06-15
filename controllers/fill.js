@@ -51,6 +51,12 @@ exports.editFillDetail = (req, res) => {
     putDetailQuery += ' fillData = ?,';
     values.push(fillData);
   }
+  if (values.length===0) {
+    return res.status(400).json({
+      error: true,
+      message: 'Empty field',
+    });
+  }
 
   putDetailQuery = putDetailQuery.slice(0, -1);
 

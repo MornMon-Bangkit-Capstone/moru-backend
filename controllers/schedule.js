@@ -100,6 +100,50 @@ exports.editScheduleDetail = (req, res) => {
 
   // eslint-disable-next-line max-len
   const {type, name, date, startTime, endTime, description, status, durationMin} = req.body;
+  let putScheduleDetailQuery = 'UPDATE schedule SET';
+  const values = [];
+  if (type) {
+    putScheduleDetailQuery += ' type = ?,';
+    values.push(type);
+  }
+  if (name) {
+    putScheduleDetailQuery += ' name = ?,';
+    values.push(name);
+  }
+  if (date) {
+    putScheduleDetailQuery += ' date = ?,';
+    values.push(date);
+  }
+  if (startTime) {
+    putScheduleDetailQuery += ' start_time = ?,';
+    values.push(startTime);
+  }
+  if (endTime) {
+    putScheduleDetailQuery += ' end_time = ?,';
+    values.push(endTime);
+  }
+  if (description) {
+    putScheduleDetailQuery += ' description = ?,';
+    values.push(description);
+  }
+  if (status) {
+    putScheduleDetailQuery += ' status = ?,';
+    values.push(status);
+  }
+  if (durationMin) {
+    putScheduleDetailQuery += ' durationMin = ?,';
+    values.push(durationMin);
+  }
+  if (values.length===0) {
+    return res.status(400).json({
+      error: true,
+      message: 'Empty field',
+    });
+  }
+  putScheduleDetailQuery = putScheduleDetailQuery.slice(0, -1);
+
+  putScheduleDetailQuery += ' WHERE id = ?';
+  values.push(id);
 
   const editScheduleData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
@@ -108,44 +152,7 @@ exports.editScheduleDetail = (req, res) => {
         console.error('Error connecting to database:', err);
         reject(err);
       }
-      let putScheduleDetailQuery = 'UPDATE schedule SET';
-      const values = [];
-      if (type) {
-        putScheduleDetailQuery += ' type = ?,';
-        values.push(type);
-      }
-      if (name) {
-        putScheduleDetailQuery += ' name = ?,';
-        values.push(name);
-      }
-      if (date) {
-        putScheduleDetailQuery += ' date = ?,';
-        values.push(date);
-      }
-      if (startTime) {
-        putScheduleDetailQuery += ' start_time = ?,';
-        values.push(startTime);
-      }
-      if (endTime) {
-        putScheduleDetailQuery += ' end_time = ?,';
-        values.push(endTime);
-      }
-      if (description) {
-        putScheduleDetailQuery += ' description = ?,';
-        values.push(description);
-      }
-      if (status) {
-        putScheduleDetailQuery += ' status = ?,';
-        values.push(status);
-      }
-      if (durationMin) {
-        putScheduleDetailQuery += ' durationMin = ?,';
-        values.push(durationMin);
-      }
-      putScheduleDetailQuery = putScheduleDetailQuery.slice(0, -1);
 
-      putScheduleDetailQuery += ' WHERE id = ?';
-      values.push(id);
       connection.query(putScheduleDetailQuery, values, (err, results) => {
         console.log(this.sql);
         if (err) {
