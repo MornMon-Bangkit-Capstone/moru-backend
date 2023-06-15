@@ -1,16 +1,18 @@
 const pool = require('database/index');
 const {Storage} = require('@google-cloud/storage');
-const multer = require('multer');
-const storage = new Storage();
+const processFile = require('middleware/upload');
+const {format} = require('util');
+const storage = new Storage({keyFilename: './google-cloud-key.json'});
+const bucket = storage.bucket('moru-user-image');
+
+
 exports.editFillDetail = (req, res) => {
   const {id} = req.user;
-  const bucketName = 'your-bucket-name';
-  const destinationFileName = 'moru'+id+'.jpg';
+
   const {
     name,
     birthDate,
     goal,
-    profilePicture,
     favBook,
     favExercise,
     fillData,
@@ -31,10 +33,7 @@ exports.editFillDetail = (req, res) => {
     putDetailQuery += ' goal = ?,';
     values.push(goal);
   }
-  if (profilePicture) {
-    putDetailQuery += ' profilePicture = ?,';
-    values.push(profilePicture);
-  }
+
   if (favBook) {
     putDetailQuery += ' favBook = ?,';
     values.push(favBook);
@@ -52,21 +51,8 @@ exports.editFillDetail = (req, res) => {
 
   putDetailQuery += ' WHERE id = ?';
   values.push(id);
-  /*
-  const handleImage=new Promise((resolve, reject)=>{
-    if (!image) resolve();
-    // If does not have image mime type prevent from uploading
-    if (/^image/.test(image.mimetype)) {
-      reject(new Error('Image Type not Supported'));
-    }
-    // eslint-disable-next-line max-len
-    const [uploadedFile]= storage.bucket(bucketName).upload(image.tempFilePath, {
-      destination: destinationFileName,
-      overwrite: true,
-    });
-    resolve(uploadedFile);
-  });
-  */
+
+
   const editData= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
       if (err) {
@@ -106,4 +92,72 @@ exports.editFillDetail = (req, res) => {
       message: err.message,
     });
   });
+};
+
+
+exports.uploadImage = async (req, res) => {
+  const uid = req.user.id;
+  try {
+    await processFile(req, res);
+
+    if (!req.file) {
+      return res.status(400).send({message: 'Please upload a file!'});
+    }
+
+    const blob = bucket.file(req.file.originalname);
+    const blobStream = blob.createWriteStream({
+      resumable: false,
+    });
+
+    blobStream.on('error', (err) => {
+      res.status(500).send({message: err.message});
+    });
+
+    blobStream.on('finish', async (data) => {
+      const originalName=req.file.originalname;
+      const fileNameInBucket=originalName.replace(/ /g, '%20');
+      const publicUrl = format(
+          `https://storage.googleapis.com/${bucket.name}/${fileNameInBucket}`,
+      );
+      const query = 'UPDATE users SET profilePicture = ? WHERE id = ?';
+      await pool.getConnection((err, connection) => {
+        if (err) {
+          console.error('Error connecting to database:', err);
+          return res.status(500).send({
+            message: err.message,
+          });
+        }
+
+        connection.query(query, [publicUrl, uid], (err, results) => {
+          if (err) {
+            connection.release();
+            console.error('Error querying database:', err);
+            return res.status(500).send({
+              message: err.message,
+            });
+          }
+          connection.release();
+        });
+      });
+    });
+
+    blobStream.end(req.file.buffer);
+  } catch (err) {
+    console.log(err);
+
+    if (err.code == 'LIMIT_FILE_SIZE') {
+      return res.status(500).send({
+        message: 'File size cannot be larger than 2MB!',
+      });
+    }
+
+    res.status(500).send({
+      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+    });
+  } finally {
+    res.status(201).json({
+      error: false,
+      message: 'image uploaded successfully',
+    });
+  }
 };

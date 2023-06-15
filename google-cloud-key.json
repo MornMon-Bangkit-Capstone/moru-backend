@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "moru-bangkit",
+  "private_key_id": "ac21dee160464e741eb1ced28782603ebb262025",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDW6UxDl2yjh9ww\n3W02kFYv5IIvApNBIhPsBkfOSaXybww6bAQ9enCEc3SCgnfbJd7DrFEMLuV08o2I\nRTU7yXBLVKO6sT36QqBWzIoRU4OxhEXRQyHzHmtJqGF6S6shanhL4HMWbjSz//+2\n+eviaOYchj48t7Y1AJhLoeo2D7IMg+8gbsAYEzPnmQJivtWYEqJmbLex3tOBoI5D\nuy2bHPIQpQ6Oasv5LZ1Ga5YzeECTjFuBndTNBfz3fpmTnv2eZdVaU0IOI0NHySa5\ngtnycsjdFciLsZcMGwfg2iWFgeVXaCOaIyUzJIobOObDtxCP4ti4xiTbfkNyunJo\n+51ZxJ7lAgMBAAECggEACHScYgpqpVJ6mNeVbPCn23GHp7bXuVfQZdhnadfe9hdl\naUUHs62GEMgEHQBqG861IYi9lZegwoWqiOKEMip+RxB48qb3k8mcSl34zq60/z5/\niriz9L9NJFRCJZAllwZ73ixiCs9iNnTLiFTz8XAEIbosZ7IospQn6c3gi6j5beGO\niW2eaWITXA30pVADPNUEMOwlYLDBb1qOTksIBvUtZTqwb+rT4XNRSUaH8jXOe8vk\nYB7YnUo4gKdJk+Z53Y32bq9zvipw1L8Pn/6pqOa16JCZK6wq4MCk5qF+LjcM8wH3\nIQlaPzUkQq5CQ0D0c6QMjihy4PmxpMc/BHFGCchF7wKBgQDq/8yexuvm5PhbFGaQ\nMm9eh8s/8VsmZ2/6wxfoSk28gQU8sv2Xa6KzTabofJwy+rHtnmOvm60l8SHjXgVr\nvyiUl+JxTLJLM7sLUeBtGtv4C1ieYMd0+HB5MX3uvRwUtKTlzGC6fX0u6V0DDKAY\nJBHWAAhWPRwVUwDAapH3Ve+0ZwKBgQDqHe/vFHGKQTGiwxXYmUoCAHPeB3z2T/O/\n8khlPG+qFA8Mny94u32i4FAyuptzWfhYimWbktvdJKoHpuzw1S3dj8S3YJKtAI6K\nses7ykxStADNaS5JGlDj15SGooxR/sGjqt0Lyh3zz0T8VgT62BV/ALiKniDKcnBL\n0DepYpDi0wKBgQC+AkJyhyiqsqxVCHO9V+pQpr+iXgZzUONsAF7ORXYBWtjfMWJ2\nEmOlUr4H8OljFuzS0mSL0vX3Xbcm3hjH+/JV41EGhxsKTzOHfZZW4YbGUnY+6MWd\nQFvAwlGuvV19KGrEG7KCV4Dmc23vT0ALBO8e9zvGbvbMDybmbcTEFcoRNQKBgHgs\n3+Hgo5utdXYwIAGsRhIa+18ohtvFFMEd9E2LJWKvoz3+ZJbb31UBQgmYQn2G3HVO\nrXObgiLVVDZTWGMTetS1nOvotcH6fDDzvWVWpbD6V0MZz7mUuZsLKWGnBNJ+LBYA\nejE4EgH6DlZdLXc5/mbQDuqQ2xIwhjZUbo4TW34jAoGActGN2ULZ+gMwE8KNr3bm\n+tUaBiZp//4QiDoVhPdybkxt5SRQeYsiaugxMxlfTQeydeuyQp+otEmyijrUIMeY\nIhBkVWQ9xx05NzsTM1JASyPgfjr6BSwScwpRRz4fXs7ukGXyFH6Bvm6j1js2GWAL\nvBbhuq85qvEmSEzI7T5IIB0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "bucket-model@moru-bangkit.iam.gserviceaccount.com",
+  "client_id": "106128584529239263829",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bucket-model%40moru-bangkit.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
