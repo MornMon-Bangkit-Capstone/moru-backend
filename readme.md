@@ -62,6 +62,8 @@ Password: morui
   - `/auth/fill/data`
 - Method
   - `POST`
+- Parameter:
+  - `Authorization: Bearer <token>`
 - Request Body
   - `name` as `string`
   - `birthdate` as `Date`(yyyy-mm-dd)
@@ -84,6 +86,8 @@ Password: morui
   - `/auth/fill/image`
 - Method
   - `POST`
+- Parameter:
+  - `Authorization: Bearer <token>`
 - Request Body
   - `image` as `image format`
 - Response
