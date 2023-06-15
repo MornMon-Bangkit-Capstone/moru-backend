@@ -123,7 +123,7 @@ exports.uploadImage = async (req, res) => {
       await pool.getConnection((err, connection) => {
         if (err) {
           console.error('Error connecting to database:', err);
-          return res.status(500).send({
+          res.status(500).send({
             message: err.message,
           });
         }
@@ -132,12 +132,16 @@ exports.uploadImage = async (req, res) => {
           if (err) {
             connection.release();
             console.error('Error querying database:', err);
-            return res.status(500).send({
+            res.status(500).send({
               message: err.message,
             });
           }
           connection.release();
         });
+      });
+      res.status(201).json({
+        error: false,
+        message: 'image uploaded successfully',
       });
     });
 
@@ -150,14 +154,8 @@ exports.uploadImage = async (req, res) => {
         message: 'File size cannot be larger than 2MB!',
       });
     }
-
     res.status(500).send({
       message: `Could not upload the file: ${req.file.originalname}. ${err}`,
-    });
-  } finally {
-    res.status(201).json({
-      error: false,
-      message: 'image uploaded successfully',
     });
   }
 };
