@@ -4,11 +4,13 @@ const routineRouter=require('./routine');
 const profileRouter = require('./profile');
 const scheduleRouter=require('./schedule');
 const databaseRouter=require('./database');
+const healthController=require('controllers/health');
 const recomRouter=require('./recom');
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
 router.get('/', sayHi);
+router.get('/health', healthController.healthCheck);
 router.use('/profile', profileRouter);
 router.use('/auth', authRouter);
 router.use('/routine', routineRouter);
