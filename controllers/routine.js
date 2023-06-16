@@ -372,6 +372,7 @@ exports.bookRating = (req, res) => {
   const bookPostRating= new Promise((resolve, reject)=>{
     pool.getConnection((err, connection) => {
       if (err) {
+        connection.release();
         console.error('Error connecting to database:', err);
         reject(err);
       }

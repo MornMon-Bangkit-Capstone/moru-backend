@@ -110,7 +110,7 @@ exports.uploadImage = async (req, res) => {
   const uid = req.user.id;
   try {
     await processFile(req, res);
-
+    console.log(processFile);
     if (!req.file) {
       return res.status(400).send({message: 'Please upload a file!'});
     }
