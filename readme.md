@@ -5,7 +5,7 @@
 
 https://whimsical.com/moru-E26QoQ16eFcxTPR32aPEhg
 
-![image](https://github.com/MornMon-Bangkit-Capstone/moru-backend/assets/82663653/b174f1c0-ea18-43dd-922a-823f0e9eb1ff)
+![Cuplikan layar 2023-06-16 194738](https://github.com/MornMon-Bangkit-Capstone/moru-backend/assets/132080652/03f489c7-a0a2-4322-940f-ba29cca08008)
 
 ### Endpoint for backend
 
