@@ -3,7 +3,62 @@ const querystring = require('querystring');
 // Define the API endpoint and parameters
 const baseUrl = 'https://moru-ml-api-inq7f5uz7q-et.a.run.app/api/v1';
 const pool = require('database/index');
-
+const exerciseList=['Aerobic',
+  'Badminton',
+  'Ball Crunch',
+  'Basketball',
+  'Boxing',
+  'Bridge',
+  'Calf Raises',
+  'Candlestick',
+  'Crunches',
+  'Cycling',
+  'Dancing',
+  'Donkey Kickback',
+  'Elliptical Training',
+  'Fencing',
+  'Football',
+  'Futsal',
+  'Golf',
+  'Gym',
+  'Handball',
+  'Hockey',
+  'Horseback Riding',
+  'Joging',
+  'Judo',
+  'Jumping Jack',
+  'Jumping Rope',
+  'Leg Lifts',
+  'Lunges',
+  'Mountain Climbers',
+  'Muay thai',
+  'Pilates',
+  'Plank',
+  'Push-up',
+  'Rugby',
+  'Running',
+  'Scissor Kick',
+  'Shoulder Touch',
+  'Side Plank',
+  'Sit-up',
+  'Sports',
+  'Squat',
+  'Stair Climbing',
+  'Stationary Biking',
+  'Stepping',
+  'Swimming',
+  'Table Tennis',
+  'Taekwondo',
+  'Tennis',
+  'Treadmill',
+  'Tucks Jump',
+  'Volleyball',
+  'Wall Climbing',
+  'Weightlifting',
+  'Windmill',
+  'Wrestling',
+  'Yoga',
+  'Zumba'];
 exports.exerciseRecom = (req, res) => {
   const uid = req.user.id;
   const exercisePool=[];
@@ -18,9 +73,15 @@ exports.exerciseRecom = (req, res) => {
       ]) => {
         // Get a list of recommended titles
         if (getUserDataResult.length!=0) {
-          exercisePool.push(() =>
-            getSports(getUserDataResult[0].favExercise),
-          );
+          if (exerciseList.includes(getUserDataResult[0].favExercise) ) {
+            exercisePool.push(() =>
+              getSports(getUserDataResult[0].favExercise),
+            );
+          } else {
+            exercisePool.push(() =>
+              getSports('Joging'),
+            );
+          }
         }
         if (checkExerciseHistoryResult.length!=0) {
           exercisePool.push(() =>
