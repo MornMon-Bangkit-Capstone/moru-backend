@@ -1,6 +1,8 @@
 ﻿# Moru
 
 ## API
+### ERD Diagram
+![image](https://github.com/MornMon-Bangkit-Capstone/moru-backend/assets/82663653/b174f1c0-ea18-43dd-922a-823f0e9eb1ff)
 
 ### Endpoint for backend
 
