@@ -84,11 +84,17 @@ exports.exerciseRecom = (req, res) => {
           }
         }
         if (checkExerciseHistoryResult.length!=0) {
-          exercisePool.push(() =>
-            getSports(checkExerciseHistoryResult[0].name),
-          );
+          if (exerciseList.includes(checkExerciseHistoryResult[0].name) ) {
+            exercisePool.push(() =>
+              getSports(checkExerciseHistoryResult[0].name),
+            );
+          } else {
+            exercisePool.push(() =>
+              getSports('Joging'),
+            );
+          }
         }
-
+        console.log(exercisePool.length);
         const randomIndex = getRandomIndex(exercisePool);
         const selectedExercise = exercisePool[randomIndex];
         return selectedExercise();
