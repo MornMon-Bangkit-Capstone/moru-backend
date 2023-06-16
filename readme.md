@@ -661,4 +661,5 @@ DATABASE_USER= root
 DATABASE_PASSWORD= db_pass
 DATABASE= db_name
 TOKEN_EXPIRES_IN= expire_time
+API_KEY=AIza...//API key
 ```
